@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,400;1,500;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 *,
 *:before,
 *:after {
@@ -17,26 +18,91 @@ html {
   font-family: "Barlow", sans-serif;
 }
 
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
   font-weight: 400 !important;
   color: rgb(66, 65, 65) !important;
 }
 
-.ant-table-tbody > tr > td {
+.ant-table-tbody>tr>td {
   font-weight: 600;
 }
+
 /* overriding ant design table font size */
 
 @media screen and (min-width: 200px) {
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td {
+
+  .ant-table-thead>tr>th,
+  .ant-table-tbody>tr>td {
     font-size: 9px;
     font-family: "Barlow", sans-serif !important;
   }
 }
+
 @media screen and (min-width: 700px) {
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td {
+
+  .ant-table-thead>tr>th,
+  .ant-table-tbody>tr>td {
     font-size: 13px;
   }
+}
+
+.title-logo {
+  position: absolute;
+  width: 631px;
+  height: 355px;
+}
+
+
+.tps-train-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tps-train-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.tps-train-image {
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  /* margin-bottom: 20px; */
+}
+
+.tps-train-score-btn {
+  flex: 1;
+  margin-top: 20px;
+}
+
+.tps-train-leaderboard {
+  flex: 1;
+  /* justify-content: center;
+  align-items: center;
+  display: flex; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.donate-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -3px
+}
+
+.text-center {
+  text-align: center;
+}
+
+.leaderboard-btn {
+  margin-top: 10px
 }
