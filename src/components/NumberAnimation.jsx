@@ -1,7 +1,7 @@
-import FlipNumbers from "react-flip-numbers";
-import { useEffect, useRef, useState } from "react";
+import FlipNumbers from 'react-flip-numbers';
+import { useEffect, useRef, useState } from 'react';
 
-export default function NumberAnimation({animationNumber}) {
+export default function NumberAnimation({ animationNumber }) {
   const timer = useRef(null);
   const [number, setNumber] = useState(animationNumber ?? 5500);
 
@@ -13,16 +13,18 @@ export default function NumberAnimation({animationNumber}) {
   }, []);
 
   return (
-    <div className="App">
+    <div className='App'>
       <FlipNumbers
-        height={40}
-        width={40}
-        color="black"
+        height={30}
+        width={30}
+        color='black'
         // background="red"
         play
+        className='number-animation'
         perspective={400}
         numbers={String(number)}
       />
-    </div>
-  );
+         
+    </div>
+  );
 }

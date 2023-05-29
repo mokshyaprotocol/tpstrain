@@ -22,6 +22,33 @@ function App() {
   const [hasDonated, setHasDonated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [donatedAmount, setDonatedAmount] = useState(null);
+  const [animationSpeed, setAnimationSpeed] = useState('20s');
+
+  const getAnimationDuration = (value) => {
+    if (value >= 10 && value <= 100) {
+      return '5s'; // Animation duration for the range 0-10
+    } else if (value >= 100 && value <= 200) {
+      return '10s'; // Animation duration for the range 20-50
+    } else if (value >= 200 && value <= 300) {
+      return '15s'; // No animation duration for other values
+    }
+    if (value >= 300 && value <= 400) {
+      return '20s';
+    }
+    if (value >= 400 && value <= 500) {
+      return '25s';
+    }
+  };
+
+  useEffect(() => {
+    let intervalId = setInterval(() => {
+      const value = Math.floor(Math.random() * 500) + 10;
+      console.log('value', getAnimationDuration(value));
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const handleDonate = () => {
     setModalActiveFor(DONATION);

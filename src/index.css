@@ -106,3 +106,49 @@ html {
 .leaderboard-btn {
   margin-top: 10px
 }
+
+
+
+.gif-container {
+  /* animation: slide 10s infinite linear; */
+  /* Adjust the animation duration (5s) as needed */
+  animation-name: gifAnimation;
+  animation-duration: 0.1s;
+  /* Adjust the duration to speed up or slow down the animation */
+  animation-timing-function: steps(30);
+  animation-iteration-count: infinite;
+}
+
+@keyframes gifAnimation {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -3000px;
+  }
+}
+
+@keyframes slide {
+
+  /* 0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(100%);
+   
+  } */
+  0% {
+    left: 0%;
+  }
+
+  100% {
+    left: 100%;
+    /* Adjust the movement distance and direction as needed */
+  }
+}
+
+.number-animation {
+  font-weight: bold;
+}
