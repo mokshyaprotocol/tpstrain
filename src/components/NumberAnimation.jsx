@@ -2,15 +2,17 @@ import FlipNumbers from 'react-flip-numbers';
 import { useEffect, useRef, useState } from 'react';
 
 export default function NumberAnimation({ animationNumber }) {
+  console.log('animationNumber', animationNumber);
   const timer = useRef(null);
-  const [number, setNumber] = useState(animationNumber ?? 5500);
+  const [number, setNumber] = useState(animationNumber);
 
   useEffect(() => {
-    clearInterval(timer.current);
-    timer.current = setInterval(() => {
-      setNumber((prev) => prev + 1);
-    }, 1000);
-  }, []);
+    // clearInterval(timer.current);
+    // timer.current = setInterval(() => {
+    //   setNumber((prev) => prev + 1);
+    // }, 1000);
+    setNumber(animationNumber);
+  }, [animationNumber]);
 
   return (
     <div className='App'>
@@ -23,6 +25,7 @@ export default function NumberAnimation({ animationNumber }) {
         className='number-animation'
         perspective={400}
         numbers={String(number)}
+        // numbers='20'
       />
          
     </div>

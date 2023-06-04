@@ -14,6 +14,8 @@ import { Button } from 'antd';
 
 import FlipNumbers from 'react-flip-numbers';
 import NumberAnimation from './components/NumberAnimation';
+import { getTpsByBlockHeight } from './helper/tpsCalculator';
+import axios from 'axios';
 
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
@@ -23,6 +25,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [donatedAmount, setDonatedAmount] = useState(null);
   const [animationSpeed, setAnimationSpeed] = useState('20s');
+  const [tpsValue, setData] = useState(null);
 
   const getAnimationDuration = (value) => {
     if (value >= 10 && value <= 100) {
@@ -40,13 +43,39 @@ function App() {
     }
   };
 
+  // track static image
+  // train gif
+  // cloud static
+
   useEffect(() => {
-    let intervalId = setInterval(() => {
-      const value = Math.floor(Math.random() * 500) + 10;
-      console.log('value', getAnimationDuration(value));
-    }, 1000);
+    // let intervalId = setInterval(() => {
+    //   const value = Math.floor(Math.random() * 500) + 10;
+    //   console.log('value', getAnimationDuration(value));
+    // }, 1000);
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'https://fullnode.testnet.aptoslabs.com/v1/'
+        );
+        console.log({ response: +response.data.block_height });
+        const tps = await getTpsByBlockHeight(+response.data.block_height);
+        console.log({ tps });
+        setData(tps);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    const interval = setInterval(fetchData, 2000); // Fetch data every 2 seconds
+
     return () => {
-      clearInterval(intervalId);
+      clearInterval(interval); // Clean up the interval when the component unmounts
     };
   }, []);
 
@@ -55,6 +84,10 @@ function App() {
   };
 
   const handleLeaderBoard = () => {};
+
+  function test() {
+    getTpsByBlockHeight(90337792);
+  }
 
   // title
   useEffect(() => {
@@ -75,6 +108,7 @@ function App() {
           className='object-contain h-[30px] lg:h-[40px] title-logo'
         />
       </div>
+
       <div className='tps-train-image'>
         <Train />
       </div>
@@ -90,7 +124,7 @@ function App() {
         >
           5500
         </h2> */}
-        <NumberAnimation animationNumber={3000} />
+        <NumberAnimation animationNumber={tpsValue} />
         <Button
           onClick={handleDonate}
           type='ghost'
@@ -122,6 +156,7 @@ function App() {
           &copy; TPS Train
         </p>
       </div>
+
       <CustomModal
         showOk={showOk}
         modalActiveFor={modalActiveFor}
