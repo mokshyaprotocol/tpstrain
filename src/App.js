@@ -124,7 +124,8 @@ function App() {
         >
           5500
         </h2> */}
-        <NumberAnimation animationNumber={tpsValue} />
+        {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
+
         <Button
           onClick={handleDonate}
           type='ghost'
