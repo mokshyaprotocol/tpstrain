@@ -17,6 +17,11 @@ import NumberAnimation from './components/NumberAnimation';
 import { getTpsByBlockHeight } from './helper/tpsCalculator';
 import axios from 'axios';
 
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { PetraWallet } from 'petra-plugin-wallet-adapter';
+
+import { PetraWalletName } from 'petra-plugin-wallet-adapter';
+import { MartianWalletName } from '@martianwallet/aptos-wallet-adapter';
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
   const [title, setTitle] = useState('');
@@ -26,6 +31,18 @@ function App() {
   const [donatedAmount, setDonatedAmount] = useState(null);
   const [animationSpeed, setAnimationSpeed] = useState('20s');
   const [tpsValue, setData] = useState(null);
+
+  const [walletConnected, setWalletConnected] = useState(false);
+
+  const { signAndSubmitTransaction, disconnect, connect, account } =
+    useWallet();
+
+  useEffect(() => {
+    if (account) {
+      localStorage.setItem('wallet', account);
+      setWalletConnected(true);
+    }
+  }, [account]);
 
   const getAnimationDuration = (value) => {
     if (value >= 10 && value <= 100) {
@@ -43,19 +60,13 @@ function App() {
     }
   };
 
-  // track static image
-  // train gif
-  // cloud static
-
-  useEffect(() => {
-    // let intervalId = setInterval(() => {
-    //   const value = Math.floor(Math.random() * 500) + 10;
-    //   console.log('value', getAnimationDuration(value));
-    // }, 1000);
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
-  }, []);
+  const handleWallet = async () => {
+    try {
+      // await connect(PetraWalletName);
+    } catch (e) {
+      console.log('connect error', e);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,9 +74,9 @@ function App() {
         const response = await axios.get(
           'https://fullnode.testnet.aptoslabs.com/v1/'
         );
-        console.log({ response: +response.data.block_height });
+        // console.log({ response: +response.data.block_height });
         const tps = await getTpsByBlockHeight(+response.data.block_height);
-        console.log({ tps });
+        // console.log({ tps });
         setData(tps);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -89,6 +100,35 @@ function App() {
     getTpsByBlockHeight(90337792);
   }
 
+  //step 1
+  const submitDonate = async () => {
+    const amount = +donatedAmount * Math.pow(10, 8);
+    try {
+      const response = await fetch(
+        `https://api.tpstrain.com/get_source_address?amount=${amount}`
+      );
+      const data = await response.json();
+      const payload = {
+        function: '0x1::aptos_account::transfer',
+        type_arguments: [],
+        arguments: [data.source_address, amount],
+      };
+      const transaction = await signAndSubmitTransaction(payload);
+      console.log({ data, transaction });
+
+      const processTransaction = await axios.post(
+        'https://api.tpstrain.com/process_transactions',
+        {
+          id: data.id,
+          amount,
+        }
+      );
+      console.log({ processTransaction });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // title
   useEffect(() => {
     setShowOk(hasDonated);
@@ -101,12 +141,23 @@ function App() {
 
   return (
     <div className='tps-train-container'>
-      <div className='tps-train-title'>
+      <div className='tps-train-title' style={{ display: 'flex' }}>
         <img
           src={Logo}
           alt='logo'
           className='object-contain h-[30px] lg:h-[40px] title-logo'
         />
+
+        <Button
+          onClick={() => {
+            handleWallet();
+          }}
+          type='ghost'
+          style={{ width: '143px', height: '30px', marginLeft: '1259px' }}
+          className='bg-primary text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
+        >
+          Connect Wallet
+        </Button>
       </div>
 
       <div className='tps-train-image'>
@@ -127,7 +178,14 @@ function App() {
         {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
 
         <Button
-          onClick={handleDonate}
+          onClick={() => {
+            console.log('donate now clicked');
+            if (walletConnected) {
+              handleDonate();
+            } else {
+              handleWallet();
+            }
+          }}
           type='ghost'
           className='bg-primary text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
         >
@@ -175,6 +233,10 @@ function App() {
             setTitle={setTitle}
             showOk={showOk}
             setShowOk={setShowOk}
+            handleDonate={() => {
+              console.log('final donate');
+              submitDonate();
+            }}
             setDonatedAmount={setDonatedAmount}
             setIsLoading={setIsLoading}
           />
@@ -204,3 +266,27 @@ function App() {
 }
 
 export default App;
+
+// Deposit click garda
+// step1 : https://api.tpstrain.com/get_source_address?amount=200000000
+
+// response {
+//     id,
+//     source_address:'sdfdsf'
+// }
+
+// step2: signAndSubmitTransaction call from aptos warkade sdk
+//  const payload = {
+//       function:
+//         '0x1::aptos_account::transfer',
+//       type_arguments: [],
+//       arguments: ['source_address','amount'],
+//     };
+
+//     step3: https://api.tpstrain.com/process_transactions
+
+//     body {
+//         id,
+//         amount:
+
+//     }
