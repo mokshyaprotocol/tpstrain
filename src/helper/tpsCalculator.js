@@ -85,7 +85,9 @@ function useGetBlockByHeight({ height, withTransactions = true }) {
 
 function getBlockByHeight(requestParameters, nodeUrl) {
   const { height, withTransactions } = requestParameters;
-  const client = new AptosClient('https://fullnode.testnet.aptoslabs.com/v1');
+  // const client = new AptosClient('https://fullnode.testnet.aptoslabs.com/v1');
+
+  const client = new AptosClient('https://fullnode-testnet.wapal.io/');
   return withResponseError(client.getBlockByHeight(height, withTransactions));
 }
 // {

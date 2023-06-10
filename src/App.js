@@ -31,6 +31,7 @@ function App() {
   const [donatedAmount, setDonatedAmount] = useState(null);
   const [animationSpeed, setAnimationSpeed] = useState('20s');
   const [tpsValue, setData] = useState(null);
+  const [openWalletModal, setOpenWalletModal] = useState();
 
   const [walletConnected, setWalletConnected] = useState(false);
 
@@ -38,6 +39,7 @@ function App() {
     useWallet();
 
   useEffect(() => {
+    console.log('account', account);
     if (account) {
       localStorage.setItem('wallet', account);
       setWalletConnected(true);
@@ -62,7 +64,8 @@ function App() {
 
   const handleWallet = async () => {
     try {
-      // await connect(PetraWalletName);
+      console.log('cliced');
+      connect(PetraWalletName);
     } catch (e) {
       console.log('connect error', e);
     }
@@ -76,7 +79,7 @@ function App() {
         );
         // console.log({ response: +response.data.block_height });
         const tps = await getTpsByBlockHeight(+response.data.block_height);
-        // console.log({ tps });
+        console.log({ tps });
         setData(tps);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -94,7 +97,9 @@ function App() {
     setModalActiveFor(DONATION);
   };
 
-  const handleLeaderBoard = () => {};
+  const handleLeaderBoard = () => {
+    setModalActiveFor(LEADERBOARD);
+  };
 
   function test() {
     getTpsByBlockHeight(90337792);
@@ -103,13 +108,19 @@ function App() {
   //step 1
   const submitDonate = async () => {
     const amount = +donatedAmount * Math.pow(10, 8);
+    // let address =
+    //   '0x820197629592f750e2aea8fba610dd6aa0ae886073dfd04e1c90586fbfa7aa09';
+    let address =
+      '0x9e2790f6dad1eeb411004651478cfcc5adf4808420fa11006a3c1d19318f2f8f';
     try {
       const response = await fetch(
-        `https://api.tpstrain.com/get_source_address?amount=${amount}`
+        `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${address}`
       );
       const data = await response.json();
       const payload = {
         function: '0x1::aptos_account::transfer',
+        // function: '0x1::coin::transfer',
+        // type_arguments: ['0x1::aptos_coin::AptosCoin'],
         type_arguments: [],
         arguments: [data.source_address, amount],
       };
@@ -119,8 +130,9 @@ function App() {
       const processTransaction = await axios.post(
         'https://api.tpstrain.com/process_transactions',
         {
-          id: data.id,
-          amount,
+          wallet_address: address,
+          balance: amount,
+          txnhash: transaction?.hash,
         }
       );
       console.log({ processTransaction });
@@ -151,6 +163,7 @@ function App() {
         <Button
           onClick={() => {
             handleWallet();
+            // setWalletOpen(true);
           }}
           type='ghost'
           style={{ width: '143px', height: '30px', marginLeft: '1259px' }}
@@ -159,7 +172,7 @@ function App() {
           Connect Wallet
         </Button>
       </div>
-
+      {/* <ConnectWallet /> */}
       <div className='tps-train-image'>
         <Train />
       </div>
@@ -179,7 +192,7 @@ function App() {
 
         <Button
           onClick={() => {
-            console.log('donate now clicked');
+            console.log('donate now clicked', walletConnected);
             if (walletConnected) {
               handleDonate();
             } else {
