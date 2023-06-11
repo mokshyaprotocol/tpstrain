@@ -89,7 +89,7 @@ const App = () => {
       columns={columns}
       dataSource={data}
       pagination={false}
-      className="w-[500px] mt-[3rem] "
+      className="w-[500px] mt-[3rem] leaderboard_table "
     />
   );
 };

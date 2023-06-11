@@ -92,7 +92,7 @@ html {
 }
 
 .tps-train-title {
-  flex: 1;
+  flex: 0.5 1;
   display: flex;
   justify-content: center;
   align-items: center;

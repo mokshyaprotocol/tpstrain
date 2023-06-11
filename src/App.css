@@ -55,3 +55,9 @@ body>iframe {
     left: 0;
 
 }
+
+.leaderboard_table tbody tr:not(:first-child) td:last-child::after{
+  content: "APT";
+  font-size: 60%;
+  margin-left: 5px;
+}
