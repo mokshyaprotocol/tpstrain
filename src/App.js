@@ -3,14 +3,14 @@ import Train from './components/Train';
 import Bottom from './components/Bottom';
 import CustomModal from './components/CustomModal';
 import { useEffect, useState } from 'react';
-import { DONATION, LEADERBOARD } from './constants';
+import { CONNECT_WALLET, DONATION, LEADERBOARD } from './constants';
 import LeaderBoardTable from './components/LeaderBoardTable';
 import DonationForm from './components/DonationForm';
 import { FaMedal } from 'react-icons/fa';
 import Logo from './images/logo.png';
 import Loading from './components/Loading';
 import Congratulations from './components/Congratulations';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 
 import FlipNumbers from 'react-flip-numbers';
 import NumberAnimation from './components/NumberAnimation';
@@ -22,6 +22,9 @@ import { PetraWallet } from 'petra-plugin-wallet-adapter';
 
 import { PetraWalletName } from 'petra-plugin-wallet-adapter';
 import { MartianWalletName } from '@martianwallet/aptos-wallet-adapter';
+import { BloctoWalletName } from '@blocto/aptos-wallet-adapter-plugin';
+
+import { ConnectWallet } from './components/ConnectWallet';
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
   const [title, setTitle] = useState('');
@@ -32,6 +35,8 @@ function App() {
   const [animationSpeed, setAnimationSpeed] = useState('20s');
   const [tpsValue, setData] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState();
+  const [walletAddress, setWalletAddress] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [walletConnected, setWalletConnected] = useState(false);
 
@@ -39,12 +44,19 @@ function App() {
     useWallet();
 
   useEffect(() => {
-    console.log('account', account);
     if (account) {
       localStorage.setItem('wallet', account);
       setWalletConnected(true);
+      setWalletAddress(account.address);
+      setModalActiveFor('');
     }
   }, [account]);
+
+  const displayWalletAddress = () => {
+    return walletAddress
+      ? walletAddress.slice(0, 4) + '....' + walletAddress.slice(-4)
+      : 'Connect Wallet';
+  };
 
   const getAnimationDuration = (value) => {
     if (value >= 10 && value <= 100) {
@@ -64,7 +76,6 @@ function App() {
 
   const handleWallet = async () => {
     try {
-      console.log('cliced');
       connect(PetraWalletName);
     } catch (e) {
       console.log('connect error', e);
@@ -101,20 +112,17 @@ function App() {
     setModalActiveFor(LEADERBOARD);
   };
 
-  function test() {
-    getTpsByBlockHeight(90337792);
-  }
+  // function test() {
+  //   getTpsByBlockHeight(90337792);
+  // }
 
-  //step 1
   const submitDonate = async () => {
+    setLoading(true);
     const amount = +donatedAmount * Math.pow(10, 8);
-    // let address =
-    //   '0x820197629592f750e2aea8fba610dd6aa0ae886073dfd04e1c90586fbfa7aa09';
-    let address =
-      '0x9e2790f6dad1eeb411004651478cfcc5adf4808420fa11006a3c1d19318f2f8f';
+
     try {
       const response = await fetch(
-        `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${address}`
+        `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${walletAddress}`
       );
       const data = await response.json();
       const payload = {
@@ -130,15 +138,31 @@ function App() {
       const processTransaction = await axios.post(
         'https://api.tpstrain.com/process_transactions',
         {
-          wallet_address: address,
+          wallet_address: walletAddress,
           balance: amount,
           txnhash: transaction?.hash,
         }
       );
-      console.log({ processTransaction });
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
+  };
+
+  const handleConnectWallet = (walletName) => {
+    let openSelectedWallet = '';
+    if (walletName === 'petra') {
+      openSelectedWallet = PetraWalletName;
+    } else if (walletName === 'blockto') {
+      openSelectedWallet = BloctoWalletName;
+    } else if (walletName === 'martian') {
+      openSelectedWallet = MartianWalletName;
+    }
+    console.log('openSelectedWallet', openSelectedWallet);
+
+    connect(openSelectedWallet);
+    setModalActiveFor('');
   };
 
   // title
@@ -156,35 +180,37 @@ function App() {
       <div className='tps-train-container'>
         <div className='tps-train-title' style={{ display: 'flex' }}>
           <div className='img-logo-holder'>
-          <img
-            src={Logo}
-            alt='logo'
-            className='object-contain h-[30px] lg:h-[40px] title-logo'
-          />
-        </div>
-      <div className='head_button_wrap'>
-      <Button
-              className="mx-auto flex items-center"
-              icon={<FaMedal className="text-[#E8E254] font-extrabold text-3xl " />}
-              size="middle"
-              type="ghost"
-              onClick={handleLeaderBoard}>
-              <span className="text-2xl font-semibold"> Leaderboard</span>
+            <img
+              src={Logo}
+              alt='logo'
+              className='object-contain h-[30px] lg:h-[40px] title-logo'
+            />
+          </div>
+          <div className='head_button_wrap'>
+            <Button
+              className='mx-auto flex items-center'
+              icon={
+                <FaMedal className='text-[#E8E254] font-extrabold text-3xl ' />
+              }
+              size='middle'
+              type='ghost'
+              onClick={handleLeaderBoard}
+            >
+              <span className='text-2xl font-semibold'> Leaderboard</span>
             </Button>
-          <Button
-                onClick={() => {
-                  handleWallet();
-                  // setWalletOpen(true);
-                }}
-                type='ghost'
-                style={{ width: '143px', height: '30px'}}
-                className='tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
-              >
-                Connect Wallet
-              </Button>
-             
-      </div>
-        
+            <Button
+              onClick={() => {
+                setModalActiveFor(CONNECT_WALLET);
+                handleWallet();
+                // setWalletOpen(true);
+              }}
+              type='ghost'
+              style={{ width: '143px', height: '30px' }}
+              className='tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
+            >
+              {displayWalletAddress()}
+            </Button>
+          </div>
         </div>
         {/* <ConnectWallet /> */}
         <div className='tps-train-image'>
@@ -192,22 +218,16 @@ function App() {
         </div>
         <div className='donate-text'>
           <h3 className='text-2xl md:mt-[1rem]' style={{ fontSize: 23 }}>
-            "Donate APt to make the train move faster"
+            "Donate Apt to make the train move faster"
           </h3>
         </div>
         <div className='tps-train-score-btn'>
-          {/* <h2
-            className='font-bold text-4xl mt-[3rem]'
-            style={{ textAlign: 'center' }}
-          >
-            5500
-          </h2> */}
           {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
 
           <Button
             onClick={() => {
-              console.log('donate now clicked', walletConnected);
-              if (walletConnected) {
+              console.log('donate now clicked', walletAddress);
+              if (walletAddress) {
                 handleDonate();
               } else {
                 handleWallet();
@@ -233,39 +253,68 @@ function App() {
             &copy; TPS Train
           </p>
         </div>
-
-        <CustomModal
-          showOk={showOk}
-          modalActiveFor={modalActiveFor}
-          setHasDonated={setHasDonated}
-          setModalActiveFor={setModalActiveFor}
-          title={title}
+        <Modal
+          title='Connect Wallet'
+          open={modalActiveFor === CONNECT_WALLET}
+          onOk={() => {}}
+          onCancel={() => {
+            setModalActiveFor('');
+          }}
         >
-          {modalActiveFor == DONATION && !hasDonated && !isLoading && (
-            <DonationForm
-              hasDonated={hasDonated}
-              isLoading={isLoading}
-              donatedAmount={donatedAmount}
-              setHasDonated={setHasDonated}
-              setModalActiveFor={setModalActiveFor}
-              setTitle={setTitle}
-              showOk={showOk}
-              setShowOk={setShowOk}
-              handleDonate={() => {
-                console.log('final donate');
-                submitDonate();
-              }}
-              setDonatedAmount={setDonatedAmount}
-              setIsLoading={setIsLoading}
-            />
-          )}
-          {modalActiveFor == LEADERBOARD && !hasDonated && !isLoading && (
-            <LeaderBoardTable />
-          )}
+          <p
+            className='wallet_item'
+            onClick={() => handleConnectWallet('petra')}
+          >
+            Petra
+          </p>
+          <p
+            className='wallet_item'
+            onClick={() => handleConnectWallet('blockto')}
+          >
+            Blockto
+          </p>
+          <p
+            className='wallet_item'
+            onClick={() => handleConnectWallet('martian')}
+          >
+            Martian.
+          </p>
+        </Modal>
 
-          {isLoading && <Loading />}
-          {hasDonated && <Congratulations donatedAmount={donatedAmount} />}
-        </CustomModal>
+        {modalActiveFor == DONATION && (
+          <CustomModal
+            showOk={showOk}
+            modalActiveFor={modalActiveFor}
+            setHasDonated={setHasDonated}
+            setModalActiveFor={setModalActiveFor}
+            title={title}
+          >
+            {modalActiveFor == DONATION && !hasDonated && !isLoading && (
+              <DonationForm
+                loading={loading}
+                hasDonated={hasDonated}
+                isLoading={isLoading}
+                donatedAmount={donatedAmount}
+                setHasDonated={setHasDonated}
+                setModalActiveFor={setModalActiveFor}
+                setTitle={setTitle}
+                showOk={showOk}
+                setShowOk={setShowOk}
+                handleDonate={() => {
+                  submitDonate();
+                }}
+                setDonatedAmount={setDonatedAmount}
+                setIsLoading={setIsLoading}
+              />
+            )}
+            {modalActiveFor == LEADERBOARD && !hasDonated && !isLoading && (
+              <LeaderBoardTable />
+            )}
+
+            {isLoading && <Loading />}
+            {hasDonated && <Congratulations donatedAmount={donatedAmount} />}
+          </CustomModal>
+        )}
       </div>
     </div>
     // <div className="App grid grid-cols-1 items-center justify-items-center w-[90%] md:w-[90%] lg:w-[90%] xl:w-[90%] 2xl:w-[80%] pt-[1rem]  mx-auto max-h-[100vh] overflow-hidden">

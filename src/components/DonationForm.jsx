@@ -7,6 +7,7 @@ const DonationForm = ({
   setDonatedAmount,
   setHasDonated,
   handleDonate,
+  loading,
 }) => {
   const radioData = {
     name: 'amount',
@@ -36,7 +37,7 @@ const DonationForm = ({
         type='ghost'
         className='mx-auto bg-primary mt-[2.5rem] w-[130px] h-[50px]  text-white'
       >
-        Donate
+        {loading ? 'loading...' : 'Donate'}
       </Button>
     </div>
   );
