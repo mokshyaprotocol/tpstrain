@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
-import TrainImage from '../images/trainnnn.gif';
+import TrainImage from '../images/trainnotrack.gif';
+import TrainTrack from '../images/Track.png'
 const Train = () => {
   useEffect(() => {}, []);
 
   return (
     <div style={{ marginBottom: 30 }} className='gif-container' speed='10ms'>
-      <img
-        src={TrainImage}
-        alt='image'
-        className='md:h-[250px]  lg:w-[630px] lg:h-[260px]  object-cover'
-      />
+          <div className='train_mid_hold'>
+            <div className='train_move-wrap'>
+              <img src={TrainImage} alt=''/>
+            </div>
+            <div className='train_track-wrap'>
+              <img src={TrainTrack} alt='' />
+            </div>
+          </div>
     </div>
   );
 };

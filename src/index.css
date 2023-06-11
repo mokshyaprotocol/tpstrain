@@ -17,7 +17,18 @@ html {
   font-size: 10px;
   font-family: "Barlow", sans-serif;
 }
-
+.container{
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0px 10px;
+}
+.img-logo-holder{
+  width: 70%;
+  
+}
+.img-logo-holder img{
+  float: right;
+}
 .ant-table-thead>tr>th {
   font-weight: 400 !important;
   color: rgb(66, 65, 65) !important;
@@ -27,6 +38,24 @@ html {
   font-weight: 600;
 }
 
+.tps_primary-btn{
+  background-color: transparent;
+  color:#1f683d ;
+  border: 1px solid #1f683d;
+  transition: all 0.3s linear;
+}
+.tps_primary-btn:hover{
+  background-color: #1f683d;
+  color: white;
+}
+.tps_primary-btn.tps_primary-btn__inverted{
+  background-color: #1f683d;
+  color: white;
+}
+.tps_primary-btn.tps_primary-btn__inverted:hover{
+  background-color: transparent;
+  color:#1f683d ;
+}
 /* overriding ant design table font size */
 
 @media screen and (min-width: 200px) {
@@ -45,9 +74,12 @@ html {
     font-size: 13px;
   }
 }
-
+.head_button_wrap{
+  display: flex;
+  align-items: center;
+}
 .title-logo {
-  position: absolute;
+ 
   width: 631px;
   height: 355px;
 }

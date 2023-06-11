@@ -31,12 +31,7 @@ const columns = [
     dataIndex: "name",
     key: "name",
   },
-  {
-    align: "left",
-    title: "Times",
-    dataIndex: "times",
-    key: "times",
-  },
+ 
   {
     align: "left",
     title: "Amount",

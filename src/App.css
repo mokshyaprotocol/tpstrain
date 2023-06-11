@@ -42,3 +42,16 @@
 body>iframe {
   display: none;
 }
+
+.train_mid_hold{
+  width:50%;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.train_mid_hold .train_track-wrap{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+}
