@@ -81,16 +81,20 @@ const data = [
 const App = () => {
   const loading = false;
   return (
-    <Table
-      loading={loading}
-      size="small"
-      sticky={true}
-      bordered={false}
-      columns={columns}
-      dataSource={data}
-      pagination={false}
-      className="w-[500px] mt-[3rem] leaderboard_table "
-    />
+
+    <div className="table-modal">
+      <h1 className="text-center">Leaderboard</h1>
+      <Table
+        loading={loading}
+        size="small"
+        sticky={true}
+        bordered={false}
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        className="w-[500px] mt-[1rem] leaderboard_table "
+      />
+    </div>
   );
 };
 

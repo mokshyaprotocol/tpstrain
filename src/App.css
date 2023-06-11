@@ -61,3 +61,22 @@ body>iframe {
   font-size: 60%;
   margin-left: 5px;
 }
+.depo-selector input[type='radio']~label{
+  border: 1px solid #1f683d;
+  transition: all 0.3s linear;
+}
+.depo-selector input[type='radio']~label:hover{
+  background-color: #1f683d;
+  color: white;
+
+}
+.depo-selector input[type='radio']:checked~label{
+  background-color: #1f683d;
+}
+.table-modal h1{
+  font-size: 30px;
+  font-weight: 900;
+  color: #1f683d;
+  letter-spacing: -2px;
+  border-bottom: 1px solid #f5f5f5;
+}

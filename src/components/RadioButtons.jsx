@@ -10,7 +10,7 @@ const RadioButtons = ({ radioData, setDonatedAmount }) => {
         return (
           <li
             key={index}
-            className=" border border-secondary group hover:text-white  rounded-lg cursor-pointer relative w-[88px] h-[88px] ">
+            className=" border border-secondary group hover:text-white depo-selector  rounded-lg cursor-pointer relative w-[88px] h-[88px] ">
             <input
               onClick={handleClick}
               type="radio"
