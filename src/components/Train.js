@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import TrainImage from '../images/trainnotrack.gif';
 import TrainTrack from '../images/Track.png'
+import TrainRock from '../images/Stoneandgrass.png'
 const Train = () => {
   useEffect(() => {}, []);
 
@@ -10,8 +11,13 @@ const Train = () => {
             <div className='train_move-wrap'>
               <img src={TrainImage} alt=''/>
             </div>
-            <div className='train_track-wrap'>
+            <div className='train_track-wrap '>
               <img src={TrainTrack} alt='' />
+              <img src={TrainTrack} alt='' />
+            </div>
+            <div className='train_track-wrap train-rocks'>
+              <img src={TrainRock} alt='' />
+              <img src={TrainRock} alt='' />
             </div>
           </div>
     </div>
