@@ -16,6 +16,7 @@ import FlipNumbers from 'react-flip-numbers';
 import NumberAnimation from './components/NumberAnimation';
 import { getTpsByBlockHeight } from './helper/tpsCalculator';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { PetraWallet } from 'petra-plugin-wallet-adapter';
@@ -51,6 +52,15 @@ function App() {
       setModalActiveFor('');
     }
   }, [account]);
+
+  useEffect(() => {
+    setShowOk(hasDonated);
+    if (hasDonated) {
+      setTitle('Congratulations!!');
+    } else {
+      setTitle('');
+    }
+  }, [hasDonated]);
 
   const displayWalletAddress = () => {
     return walletAddress
@@ -90,7 +100,7 @@ function App() {
         );
         // console.log({ response: +response.data.block_height });
         const tps = await getTpsByBlockHeight(+response.data.block_height);
-        console.log({ tps });
+        // console.log({ tps });
         setData(tps);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -124,6 +134,11 @@ function App() {
       const response = await fetch(
         `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${walletAddress}`
       );
+      console.log({ response });
+      if (response.status === 502) {
+        toast.error('Deposit failed. Please try again!.');
+        return;
+      }
       const data = await response.json();
       const payload = {
         function: '0x1::aptos_account::transfer',
@@ -143,10 +158,11 @@ function App() {
           txnhash: transaction?.hash,
         }
       );
+      console.log({ processTransaction });
       setLoading(false);
     } catch (err) {
-      setLoading(false);
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -302,6 +318,7 @@ function App() {
                 setShowOk={setShowOk}
                 handleDonate={() => {
                   submitDonate();
+                  setModalActiveFor('');
                 }}
                 setDonatedAmount={setDonatedAmount}
                 setIsLoading={setIsLoading}

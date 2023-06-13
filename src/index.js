@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { PetraWallet } from 'petra-plugin-wallet-adapter';
 import { BloctoWallet } from '@blocto/aptos-wallet-adapter-plugin';
 import { MartianWallet } from '@martianwallet/aptos-wallet-adapter';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { WalletCore, NetworkName } from '@aptos-labs/wallet-adapter-core';
 
@@ -25,6 +27,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
+      <ToastContainer />
       <App />
     </AptosWalletAdapterProvider>
   </React.StrictMode>
