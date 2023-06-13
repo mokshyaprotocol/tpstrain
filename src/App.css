@@ -97,6 +97,7 @@ background-color:white;
 .depo-selector input[type='radio']~label{
   border: 1px solid #1f683d;
   transition: all 0.3s linear;
+  font-weight: 600;
   position: relative;
 }
 .depo-selector input[type='radio']~label:hover{
@@ -107,7 +108,9 @@ background-color:white;
 .depo-selector input[type='radio']~label:after{
   content: "APT";
   font-size: 60%;
-  margin-bottom: -5px;
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
 }
 .depo-selector input[type='radio']:checked~label{
   background-color: #1f683d;
