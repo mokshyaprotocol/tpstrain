@@ -11,11 +11,11 @@ const Train = () => {
             <div className='train_move-wrap'>
               <img src={TrainImage} alt=''/>
             </div>
-            <div className='train_track-wrap '>
+            <div className='train_track-wrap train-low'>
               <img src={TrainTrack} alt='' />
               <img src={TrainTrack} alt='' />
             </div>
-            <div className='train_track-wrap train-rocks'>
+            <div className='train_track-wrap train-rocks train-low'>
               <img src={TrainRock} alt='' />
               <img src={TrainRock} alt='' />
             </div>
