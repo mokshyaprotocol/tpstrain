@@ -49,13 +49,46 @@ body>iframe {
   position: relative;
   overflow: hidden;
 }
+.train_mid_hold:after{
+  content: '';
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+position: absolute;
+background-color:white;
+}
 .train_mid_hold .train_track-wrap{
     position: absolute;
-    bottom: 0;
+    bottom: -15px;
     left: 0;
-
+    z-index: 2;
+    animation: track 10s linear infinite; 
+    overflow: hidden;
+    width: 200%;
 }
-
+.train_mid_hold .train_track-wrap.train-low{
+  animation: track 10s linear infinite; 
+}
+.train_mid_hold .train_track-wrap.train-low_med{
+  animation: track 7s linear infinite; 
+}
+.train_mid_hold .train_track-wrap.train-medium{
+  animation: track 5s linear infinite; 
+}
+.train_mid_hold .train_track-wrap.train-high{
+  animation: track 2s linear infinite; 
+}
+.train_mid_hold .train_track-wrap.train-rocks{
+  z-index: 2;
+  width: 200%;
+  bottom: -5px;
+}
+.train_mid_hold .train_track-wrap img{
+  width: 50%;
+  float: left;
+  overflow: hidden;
+}
 .leaderboard_table tbody tr:not(:first-child) td:last-child::after{
   content: "APT";
   font-size: 60%;
@@ -64,11 +97,20 @@ body>iframe {
 .depo-selector input[type='radio']~label{
   border: 1px solid #1f683d;
   transition: all 0.3s linear;
+  font-weight: 600;
+  position: relative;
 }
 .depo-selector input[type='radio']~label:hover{
   background-color: #1f683d;
   color: white;
 
+}
+.depo-selector input[type='radio']~label:after{
+  content: "APT";
+  font-size: 60%;
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
 }
 .depo-selector input[type='radio']:checked~label{
   background-color: #1f683d;
@@ -79,4 +121,62 @@ body>iframe {
   color: #1f683d;
   letter-spacing: -2px;
   border-bottom: 1px solid #f5f5f5;
+}
+
+.connect_wallet_modal li{
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+
+@keyframes track {
+  0% { 
+    left: 0; 
+  }
+  100% {
+     left: -100%;
+    }
+}
+.connect-wallet-modal{
+  width: 350px!important;
+}
+.connect_wallet_modal{
+  padding: 30px 30px;
+  text-align: center;
+}
+ .ant-modal .ant-modal-title{
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  text-align: center;
+  font-size: 25px;
+  color: #1f683d;
+}
+.connect-wallet-modal .connect_wallet_modal ul li{
+  display: flex;
+  align-items: center;
+  transition: all 0.3s linear;
+}
+.connect-wallet-modal .connect_wallet_modal ul li:hover{
+  background-color: #ddd;
+}
+.connect-wallet-modal .connect_wallet_modal ul li p{
+  padding: 0px 10px;
+}
+.connect-wallet-modal .connect_wallet_modal ul li .icon-wrap{
+  width: 30px;
+  height: 30px;
+}
+.connect-wallet-modal .ant-modal-footer .ant-btn-primary{
+  background-color: #1f683d;
+  color: white;
+}
+.connect-wallet-modal .ant-modal-footer .ant-btn-default{
+  border: 1px solid #1f683d;
+}
+.connect-wallet-modal .ant-modal-footer .ant-btn-default:hover{
+  color: #1f683d;
 }

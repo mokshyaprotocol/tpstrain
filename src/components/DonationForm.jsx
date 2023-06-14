@@ -35,7 +35,7 @@ const DonationForm = ({
       <Button
         onClick={handleDonate}
         type='ghost'
-        className='mx-auto bg-primary mt-[2.5rem] w-[130px] h-[50px]  text-white'
+        className='mx-auto bg-primary mt-[2.5rem] w-[130px] h-[50px]  text-white tps_primary-btn tps_primary-btn__inverted'
       >
         {loading ? 'loading...' : 'Donate'}
       </Button>
