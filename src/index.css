@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,400;1,500;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  font-family: "Barlow", sans-serif;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0px 10px;
+}
+
+.img-logo-holder {
+  width: 70%;
+
+}
+
+.img-logo-holder img {
+  float: right;
+}
+
+.ant-table-thead>tr>th {
+  font-weight: 400 !important;
+  color: rgb(66, 65, 65) !important;
+}
+
+.ant-table-tbody>tr>td {
+  font-weight: 600;
+}
+
+.tps_primary-btn {
+  background-color: transparent;
+  color: #1f683d;
+  border: 1px solid #1f683d;
+  transition: all 0.3s linear;
+}
+
+.tps_primary-btn:hover {
+  background-color: #1f683d;
+  color: white;
+}
+
+.tps_primary-btn.tps_primary-btn__inverted {
+  background-color: #1f683d;
+  color: white;
+}
+
+.tps_primary-btn.tps_primary-btn__inverted:hover {
+  background-color: transparent;
+  color: #1f683d;
+}
+
+/* overriding ant design table font size */
+
+@media screen and (min-width: 200px) {
+
+  .ant-table-thead>tr>th,
+  .ant-table-tbody>tr>td {
+    font-size: 9px;
+    font-family: "Barlow", sans-serif !important;
+  }
+}
+
+@media screen and (min-width: 700px) {
+
+  .ant-table-thead>tr>th,
+  .ant-table-tbody>tr>td {
+    font-size: 13px;
+  }
+}
+
+.head_button_wrap {
+  display: flex;
+  align-items: center;
+}
+
+.title-logo {
+
+  width: 631px;
+  height: 355px;
+}
+
+
+.tps-train-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tps-train-title {
+  flex: 0.5 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.tps-train-image {
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  /* margin-bottom: 20px; */
+}
+
+.tps-train-score-btn {
+  flex: 1;
+  margin-top: 20px;
+}
+
+.tps-train-leaderboard {
+  flex: 1;
+  /* justify-content: center;
+  align-items: center;
+  display: flex; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.donate-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -3px
+}
+
+.text-center {
+  text-align: center;
+}
+
+.leaderboard-btn {
+  margin-top: 10px
+}
+
+
+
+.gif-container {
+  /* animation: slide 10s infinite linear; */
+  /* Adjust the animation duration (5s) as needed */
+  animation-name: gifAnimation;
+  animation-duration: 0.1s;
+  /* Adjust the duration to speed up or slow down the animation */
+  animation-timing-function: steps(30);
+  animation-iteration-count: infinite;
+}
+
+@keyframes gifAnimation {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: -3000px;
+  }
+}
+
+@keyframes slide {
+
+  /* 0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(100%);
+   
+  } */
+  0% {
+    left: 0%;
+  }
+
+  100% {
+    left: 100%;
+    /* Adjust the movement distance and direction as needed */
+  }
+}
+
+.number-animation {
+  font-weight: bold;
+}
+
+.wallet_item {
+  font-weight: bold;
+  padding: 6px;
+  font-size: 20px;
+}
+
+.wallet_item:hover {
+  cursor: pointer;
+}
