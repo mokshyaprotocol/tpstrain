@@ -88,7 +88,6 @@ export async function getTpsByBlockHeight(currentBlockHeight) {
   if (startBlock !== undefined && endBlock !== undefined) {
     const tps = calculateTps(startBlock, endBlock);
     const roundedTps = Math.ceil(tps);
-    console.log(roundedTps, 'roundedTps');
     return roundedTps;
   } else {
     return 0;

@@ -28,6 +28,8 @@ import PetraIcon from '../src/images/petra.png';
 import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
 
+import { toast } from 'react-toastify';
+
 import { ConnectWallet } from './components/ConnectWallet';
 
 function App() {
@@ -111,7 +113,7 @@ function App() {
       }
     };
 
-    const interval = setInterval(fetchData, 2000); // Fetch data every 2 seconds
+    const interval = setInterval(fetchData, 3000); // Fetch data every 2 seconds
 
     return () => {
       clearInterval(interval); // Clean up the interval when the component unmounts
@@ -134,7 +136,6 @@ function App() {
       const response = await fetch(
         `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${walletAddress}`
       );
-      console.log({ response });
       if (response.status === 502) {
         toast.error('Deposit failed. Please try again!.');
         return;
@@ -157,6 +158,7 @@ function App() {
           txnhash: transaction?.hash,
         }
       );
+      toast.success('APT deposited successfully.');
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -172,7 +174,6 @@ function App() {
     } else if (walletName === 'martian') {
       openSelectedWallet = MartianWalletName;
     }
-    console.log('openSelectedWallet', openSelectedWallet);
 
     connect(openSelectedWallet);
     setModalActiveFor('');
@@ -227,7 +228,7 @@ function App() {
         </div>
         {/* <ConnectWallet /> */}
         <div className='tps-train-image'>
-          <Train />
+          <Train tpsValue={tpsValue} />
         </div>
         <div className='donate-text'>
           <h3 className='text-2xl md:mt-[1rem]' style={{ fontSize: 23 }}>
