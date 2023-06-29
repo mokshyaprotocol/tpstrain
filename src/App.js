@@ -25,11 +25,11 @@ import { PetraWalletName } from 'petra-plugin-wallet-adapter';
 import { MartianWalletName } from '@martianwallet/aptos-wallet-adapter';
 import { BloctoWalletName } from '@blocto/aptos-wallet-adapter-plugin';
 import PetraIcon from '../src/images/petra.png';
-import BlocktoIcon from '../src/images/blockto.png'
-import MartianIcon from '../src/images/martian.png'
-
+import BlocktoIcon from '../src/images/blockto.png';
+import MartianIcon from '../src/images/martian.png';
 
 import { ConnectWallet } from './components/ConnectWallet';
+
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
   const [title, setTitle] = useState('');
@@ -126,10 +126,6 @@ function App() {
     setModalActiveFor(LEADERBOARD);
   };
 
-  // function test() {
-  //   getTpsByBlockHeight(90337792);
-  // }
-
   const submitDonate = async () => {
     setLoading(true);
     const amount = +donatedAmount * Math.pow(10, 8);
@@ -152,7 +148,6 @@ function App() {
         arguments: [data.source_address, amount],
       };
       const transaction = await signAndSubmitTransaction(payload);
-      console.log({ data, transaction });
 
       const processTransaction = await axios.post(
         'https://api.tpstrain.com/process_transactions',
@@ -162,10 +157,8 @@ function App() {
           txnhash: transaction?.hash,
         }
       );
-      console.log({ processTransaction });
       setLoading(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
   };
@@ -246,7 +239,6 @@ function App() {
 
           <Button
             onClick={() => {
-              console.log('donate now clicked', walletAddress);
               if (walletAddress) {
                 handleDonate();
               } else {
@@ -282,43 +274,42 @@ function App() {
             setModalActiveFor('');
           }}
         >
-          <div className="connect_wallet_modal">
+          <div className='connect_wallet_modal'>
             <ul>
               <li>
-                  <div className='icon-wrap'>
-                    <img src={PetraIcon} alt=""/>
-
-                  </div>
-                <p className='wallet_item' onClick={() => handleConnectWallet('petra')}>
+                <div className='icon-wrap'>
+                  <img src={PetraIcon} alt='' />
+                </div>
+                <p
+                  className='wallet_item'
+                  onClick={() => handleConnectWallet('petra')}
+                >
                   Petra
                 </p>
               </li>
               <li>
-              <div className='icon-wrap'>
-                <img src={BlocktoIcon} alt=""/>
-              </div>
-                  <p
-                    className='wallet_item'
-                    onClick={() => handleConnectWallet('blockto')}
-                  >
-                    Blockto
+                <div className='icon-wrap'>
+                  <img src={BlocktoIcon} alt='' />
+                </div>
+                <p
+                  className='wallet_item'
+                  onClick={() => handleConnectWallet('blockto')}
+                >
+                  Blockto
                 </p>
               </li>
               <li>
-              <div className='icon-wrap'>
-                <img src={MartianIcon} alt=""/>
-              </div>
-                  <p
+                <div className='icon-wrap'>
+                  <img src={MartianIcon} alt='' />
+                </div>
+                <p
                   className='wallet_item'
                   onClick={() => handleConnectWallet('martian')}
                 >
-                Martian.
-              </p>
+                  Martian.
+                </p>
               </li>
             </ul>
-        
-         
-        
           </div>
         </Modal>
 
@@ -327,7 +318,6 @@ function App() {
             showOk={showOk}
             modalActiveFor={modalActiveFor}
             setHasDonated={setHasDonated}
-            
             setModalActiveFor={setModalActiveFor}
             title={title}
           >
@@ -341,7 +331,6 @@ function App() {
                 setModalActiveFor={setModalActiveFor}
                 setTitle={setTitle}
                 showOk={showOk}
-                
                 setShowOk={setShowOk}
                 handleDonate={() => {
                   submitDonate();
