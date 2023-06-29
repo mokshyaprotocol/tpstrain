@@ -107,6 +107,7 @@ body>iframe {
 .depo-selector input[type='radio']~label {
   border: 1px solid #1f683d;
   transition: all 0.3s linear;
+  font-weight: 600;
   position: relative;
 }
 
@@ -119,7 +120,9 @@ body>iframe {
 .depo-selector input[type='radio']~label:after {
   content: "APT";
   font-size: 60%;
-  margin-bottom: -5px;
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
 }
 
 .depo-selector input[type='radio']:checked~label {
