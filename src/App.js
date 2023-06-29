@@ -25,11 +25,13 @@ import { PetraWalletName } from 'petra-plugin-wallet-adapter';
 import { MartianWalletName } from '@martianwallet/aptos-wallet-adapter';
 import { BloctoWalletName } from '@blocto/aptos-wallet-adapter-plugin';
 import PetraIcon from '../src/images/petra.png';
-import BlocktoIcon from '../src/images/blockto.png'
-import MartianIcon from '../src/images/martian.png'
+import BlocktoIcon from '../src/images/blockto.png';
+import MartianIcon from '../src/images/martian.png';
 
+import { toast } from 'react-toastify';
 
 import { ConnectWallet } from './components/ConnectWallet';
+
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
   const [title, setTitle] = useState('');
@@ -111,7 +113,7 @@ function App() {
       }
     };
 
-    const interval = setInterval(fetchData, 2000); // Fetch data every 2 seconds
+    const interval = setInterval(fetchData, 3000); // Fetch data every 2 seconds
 
     return () => {
       clearInterval(interval); // Clean up the interval when the component unmounts
@@ -126,10 +128,6 @@ function App() {
     setModalActiveFor(LEADERBOARD);
   };
 
-  // function test() {
-  //   getTpsByBlockHeight(90337792);
-  // }
-
   const submitDonate = async () => {
     setLoading(true);
     const amount = +donatedAmount * Math.pow(10, 8);
@@ -138,7 +136,6 @@ function App() {
       const response = await fetch(
         `https://api.tpstrain.com/get_source_address?amount=${amount}&wallet_address=${walletAddress}`
       );
-      console.log({ response });
       if (response.status === 502) {
         toast.error('Deposit failed. Please try again!.');
         return;
@@ -152,7 +149,6 @@ function App() {
         arguments: [data.source_address, amount],
       };
       const transaction = await signAndSubmitTransaction(payload);
-      console.log({ data, transaction });
 
       const processTransaction = await axios.post(
         'https://api.tpstrain.com/process_transactions',
@@ -162,10 +158,9 @@ function App() {
           txnhash: transaction?.hash,
         }
       );
-      console.log({ processTransaction });
+      toast.success('APT deposited successfully.');
       setLoading(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
   };
@@ -179,7 +174,6 @@ function App() {
     } else if (walletName === 'martian') {
       openSelectedWallet = MartianWalletName;
     }
-    console.log('openSelectedWallet', openSelectedWallet);
 
     connect(openSelectedWallet);
     setModalActiveFor('');
@@ -234,7 +228,7 @@ function App() {
         </div>
         {/* <ConnectWallet /> */}
         <div className='tps-train-image'>
-          <Train />
+          <Train tpsValue={tpsValue} />
         </div>
         <div className='donate-text'>
           <h3 className='text-2xl md:mt-[1rem]' style={{ fontSize: 23 }}>
@@ -246,7 +240,6 @@ function App() {
 
           <Button
             onClick={() => {
-              console.log('donate now clicked', walletAddress);
               if (walletAddress) {
                 handleDonate();
               } else {
@@ -282,43 +275,42 @@ function App() {
             setModalActiveFor('');
           }}
         >
-          <div className="connect_wallet_modal">
+          <div className='connect_wallet_modal'>
             <ul>
               <li>
-                  <div className='icon-wrap'>
-                    <img src={PetraIcon} alt=""/>
-
-                  </div>
-                <p className='wallet_item' onClick={() => handleConnectWallet('petra')}>
+                <div className='icon-wrap'>
+                  <img src={PetraIcon} alt='' />
+                </div>
+                <p
+                  className='wallet_item'
+                  onClick={() => handleConnectWallet('petra')}
+                >
                   Petra
                 </p>
               </li>
               <li>
-              <div className='icon-wrap'>
-                <img src={BlocktoIcon} alt=""/>
-              </div>
-                  <p
-                    className='wallet_item'
-                    onClick={() => handleConnectWallet('blockto')}
-                  >
-                    Blockto
+                <div className='icon-wrap'>
+                  <img src={BlocktoIcon} alt='' />
+                </div>
+                <p
+                  className='wallet_item'
+                  onClick={() => handleConnectWallet('blockto')}
+                >
+                  Blockto
                 </p>
               </li>
               <li>
-              <div className='icon-wrap'>
-                <img src={MartianIcon} alt=""/>
-              </div>
-                  <p
+                <div className='icon-wrap'>
+                  <img src={MartianIcon} alt='' />
+                </div>
+                <p
                   className='wallet_item'
                   onClick={() => handleConnectWallet('martian')}
                 >
-                Martian.
-              </p>
+                  Martian.
+                </p>
               </li>
             </ul>
-        
-         
-        
           </div>
         </Modal>
 
@@ -327,7 +319,6 @@ function App() {
             showOk={showOk}
             modalActiveFor={modalActiveFor}
             setHasDonated={setHasDonated}
-            
             setModalActiveFor={setModalActiveFor}
             title={title}
           >
@@ -341,7 +332,6 @@ function App() {
                 setModalActiveFor={setModalActiveFor}
                 setTitle={setTitle}
                 showOk={showOk}
-                
                 setShowOk={setShowOk}
                 handleDonate={() => {
                   submitDonate();
