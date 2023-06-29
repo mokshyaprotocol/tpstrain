@@ -28,8 +28,6 @@ import PetraIcon from '../src/images/petra.png';
 import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
 
-import { toast } from 'react-toastify';
-
 import { ConnectWallet } from './components/ConnectWallet';
 
 function App() {
