@@ -71,11 +71,11 @@ body>iframe {
 }
 
 .train_mid_hold .train_track-wrap.train-low {
-  animation: track 10s linear infinite;
+  animation: track 20s linear infinite;
 }
 
 .train_mid_hold .train_track-wrap.train-low_med {
-  animation: track 7s linear infinite;
+  animation: track 15s linear infinite;
 }
 
 .train_mid_hold .train_track-wrap.train-medium {

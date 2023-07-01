@@ -9,13 +9,13 @@ const Train = ({ tpsValue }) => {
   useEffect(() => {
     setTps(() => tpsValue);
 
-    if (tps >= 0 && tps <= 20) {
+    if (tps >= 0 && tps <= 15) {
       setTpsSpeedClass('train-low');
-    } else if (tps >= 21 && tps <= 50) {
+    } else if (tps >= 16 && tps <= 20) {
       setTpsSpeedClass('train-low_med');
-    } else if (tps >= 51 && tps <= 100) {
+    } else if (tps >= 21 && tps <= 30) {
       setTpsSpeedClass('train-medium');
-    } else if (tps >= 100) {
+    } else if (tps >= 31) {
       setTpsSpeedClass('train-high');
     }
   }, [tpsValue]);
