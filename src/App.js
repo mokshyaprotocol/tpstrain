@@ -2,33 +2,33 @@ import './App.css';
 import Train from './components/Train';
 import Bottom from './components/Bottom';
 import CustomModal from './components/CustomModal';
-import { useEffect, useState } from 'react';
-import { CONNECT_WALLET, DONATION, LEADERBOARD } from './constants';
+import {useEffect, useState} from 'react';
+import {CONNECT_WALLET, DONATION, LEADERBOARD} from './constants';
 import LeaderBoardTable from './components/LeaderBoardTable';
 import DonationForm from './components/DonationForm';
-import { FaMedal } from 'react-icons/fa';
+import {FaMedal} from 'react-icons/fa';
 import Logo from './images/logo.png';
 import Loading from './components/Loading';
 import Congratulations from './components/Congratulations';
-import { Button, Modal } from 'antd';
+import {Button, Modal} from 'antd';
 
 import FlipNumbers from 'react-flip-numbers';
 import NumberAnimation from './components/NumberAnimation';
-import { getTpsByBlockHeight } from './helper/tpsCalculator';
+import {getTpsByBlockHeight} from './helper/tpsCalculator';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
-import { useWallet } from '@aptos-labs/wallet-adapter-react';
-import { PetraWallet } from 'petra-plugin-wallet-adapter';
+import {useWallet} from '@aptos-labs/wallet-adapter-react';
+import {PetraWallet} from 'petra-plugin-wallet-adapter';
 
-import { PetraWalletName } from 'petra-plugin-wallet-adapter';
-import { MartianWalletName } from '@martianwallet/aptos-wallet-adapter';
-import { BloctoWalletName } from '@blocto/aptos-wallet-adapter-plugin';
+import {PetraWalletName} from 'petra-plugin-wallet-adapter';
+import {MartianWalletName} from '@martianwallet/aptos-wallet-adapter';
+import {BloctoWalletName} from '@blocto/aptos-wallet-adapter-plugin';
 import PetraIcon from '../src/images/petra.png';
 import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
 
-import { ConnectWallet } from './components/ConnectWallet';
+import {ConnectWallet} from './components/ConnectWallet';
 
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
@@ -45,8 +45,7 @@ function App() {
 
   const [walletConnected, setWalletConnected] = useState(false);
 
-  const { signAndSubmitTransaction, disconnect, connect, account } =
-    useWallet();
+  const {signAndSubmitTransaction, disconnect, connect, account} = useWallet();
 
   useEffect(() => {
     if (account) {
@@ -111,7 +110,7 @@ function App() {
       }
     };
 
-    const interval = setInterval(fetchData, 1000); // Fetch data every 1 seconds
+    const interval = setInterval(fetchData, 5000); // Fetch data every 1 seconds
 
     return () => {
       clearInterval(interval); // Clean up the interval when the component unmounts
@@ -140,7 +139,8 @@ function App() {
       }
       const data = await response.json();
       const payload = {
-        function: '0x1::aptos_account::transfer',
+        function:
+          '0xe3d96f4e179c62fc0d3934bc289731e02c465ad17528c0b5706fe193daff917e::train_nft::mint_to',
         // function: '0x1::coin::transfer',
         // type_arguments: ['0x1::aptos_coin::AptosCoin'],
         type_arguments: [],
@@ -188,27 +188,27 @@ function App() {
   }, [hasDonated]);
 
   return (
-    <div className='container'>
-      <div className='tps-train-container'>
-        <div className='tps-train-title' style={{ display: 'flex' }}>
-          <div className='img-logo-holder'>
+    <div className="container">
+      <div className="tps-train-container">
+        <div className="tps-train-title" style={{display: 'flex'}}>
+          <div className="img-logo-holder">
             <img
               src={Logo}
-              alt='logo'
-              className='object-contain h-[30px] lg:h-[40px] title-logo'
+              alt="logo"
+              className="object-contain h-[30px] lg:h-[40px] title-logo"
             />
           </div>
-          <div className='head_button_wrap'>
+          <div className="head_button_wrap">
             <Button
-              className='mx-auto flex items-center'
+              className="mx-auto flex items-center"
               icon={
-                <FaMedal className='text-[#E8E254] font-extrabold text-3xl ' />
+                <FaMedal className="text-[#E8E254] font-extrabold text-3xl " />
               }
-              size='middle'
-              type='ghost'
+              size="middle"
+              type="ghost"
               onClick={handleLeaderBoard}
             >
-              <span className='text-2xl font-semibold'> Leaderboard</span>
+              <span className="text-2xl font-semibold"> Leaderboard</span>
             </Button>
             <Button
               onClick={() => {
@@ -216,24 +216,24 @@ function App() {
                 handleWallet();
                 // setWalletOpen(true);
               }}
-              type='ghost'
-              style={{ width: '143px', height: '30px' }}
-              className='tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
+              type="ghost"
+              style={{width: '143px', height: '30px'}}
+              className="tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]"
             >
               {displayWalletAddress()}
             </Button>
           </div>
         </div>
         {/* <ConnectWallet /> */}
-        <div className='tps-train-image'>
+        <div className="tps-train-image">
           <Train tpsValue={tpsValue} />
         </div>
-        <div className='donate-text'>
-          <h3 className='text-2xl md:mt-[1rem]' style={{ fontSize: 23 }}>
+        <div className="donate-text">
+          <h3 className="text-2xl md:mt-[1rem]" style={{fontSize: 23}}>
             "Donate Apt to make the train move faster"
           </h3>
         </div>
-        <div className='tps-train-score-btn'>
+        <div className="tps-train-score-btn">
           {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
 
           <Button
@@ -244,65 +244,65 @@ function App() {
                 handleWallet();
               }
             }}
-            type='ghost'
-            className='tps_primary-btn tps_primary-btn__inverted text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
+            type="ghost"
+            className="tps_primary-btn tps_primary-btn__inverted text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]"
           >
             DONATE NOW
           </Button>
         </div>
-        <div className='tps-train-leaderboard'>
-          <p className='text-xl mt-[1rem] text-center' style={{ fontSize: 18 }}>
+        <div className="tps-train-leaderboard">
+          <p className="text-xl mt-[1rem] text-center" style={{fontSize: 18}}>
             Aptos is super fast. Don’t believe it? Donate APT to stress test.
           </p>
           <p
-            className='mt-[0.5rem] text-gray-600 text-center'
-            style={{ fontSize: 12 }}
+            className="mt-[0.5rem] text-gray-600 text-center"
+            style={{fontSize: 12}}
           >
             TPS Train V1.6
           </p>
-          <p className='mt-[0.1rem] text-gray-500 text-center'>
+          <p className="mt-[0.1rem] text-gray-500 text-center">
             &copy; TPS Train
           </p>
         </div>
         <Modal
-          title='Connect Wallet'
+          title="Connect Wallet"
           open={modalActiveFor === CONNECT_WALLET}
-          className='connect-wallet-modal'
+          className="connect-wallet-modal"
           onOk={() => {}}
           onCancel={() => {
             setModalActiveFor('');
           }}
         >
-          <div className='connect_wallet_modal'>
+          <div className="connect_wallet_modal">
             <ul>
               <li>
-                <div className='icon-wrap'>
-                  <img src={PetraIcon} alt='' />
+                <div className="icon-wrap">
+                  <img src={PetraIcon} alt="" />
                 </div>
                 <p
-                  className='wallet_item'
+                  className="wallet_item"
                   onClick={() => handleConnectWallet('petra')}
                 >
                   Petra
                 </p>
               </li>
               <li>
-                <div className='icon-wrap'>
-                  <img src={BlocktoIcon} alt='' />
+                <div className="icon-wrap">
+                  <img src={BlocktoIcon} alt="" />
                 </div>
                 <p
-                  className='wallet_item'
+                  className="wallet_item"
                   onClick={() => handleConnectWallet('blockto')}
                 >
                   Blockto
                 </p>
               </li>
               <li>
-                <div className='icon-wrap'>
-                  <img src={MartianIcon} alt='' />
+                <div className="icon-wrap">
+                  <img src={MartianIcon} alt="" />
                 </div>
                 <p
-                  className='wallet_item'
+                  className="wallet_item"
                   onClick={() => handleConnectWallet('martian')}
                 >
                   Martian.
