@@ -42,6 +42,7 @@ function App() {
   const [openWalletModal, setOpenWalletModal] = useState();
   const [walletAddress, setWalletAddress] = useState('');
   const [loading, setLoading] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
 
   const [walletConnected, setWalletConnected] = useState(false);
 
@@ -58,6 +59,27 @@ function App() {
   }, [account]);
 
   useEffect(() => {
+    async function fetchLeaderBoardList() {
+      fetch('https://api.tpstrain.com/leaderboard')
+        .then((response) => response.json())
+        .then((data) => {
+          const mapLeaderBoardData = data.map((x, index) => ({
+            key: index,
+            name: x.wallet_address,
+            times: 32,
+            amount: x.total_apt,
+          }));
+          console.log('data', mapLeaderBoardData);
+
+          setLeaderboard(mapLeaderBoardData);
+        });
+    }
+    if (leaderboard.length === 0) {
+      fetchLeaderBoardList();
+    }
+  }, [modalActiveFor]);
+
+  useEffect(() => {
     setShowOk(hasDonated);
     if (hasDonated) {
       setTitle('Congratulations!!');
@@ -72,25 +94,14 @@ function App() {
       : 'Connect Wallet';
   };
 
-  const getAnimationDuration = (value) => {
-    if (value >= 10 && value <= 100) {
-      return '5s'; // Animation duration for the range 0-10
-    } else if (value >= 100 && value <= 200) {
-      return '10s'; // Animation duration for the range 20-50
-    } else if (value >= 200 && value <= 300) {
-      return '15s'; // No animation duration for other values
-    }
-    if (value >= 300 && value <= 400) {
-      return '20s';
-    }
-    if (value >= 400 && value <= 500) {
-      return '25s';
-    }
-  };
-
   const handleWallet = async () => {
     try {
-      connect(PetraWalletName);
+      if (walletAddress) {
+        setWalletAddress(null);
+        disconnect();
+      } else {
+        connect(PetraWalletName);
+      }
     } catch (e) {
       console.log('connect error', e);
     }
@@ -123,6 +134,7 @@ function App() {
   };
 
   const handleLeaderBoard = () => {
+    console.log('LEADERBOARD');
     setModalActiveFor(LEADERBOARD);
   };
 
@@ -212,7 +224,7 @@ function App() {
             </Button>
             <Button
               onClick={() => {
-                setModalActiveFor(CONNECT_WALLET);
+                // setModalActiveFor(CONNECT_WALLET);
                 handleWallet();
                 // setWalletOpen(true);
               }}
@@ -220,7 +232,7 @@ function App() {
               style={{ width: '143px', height: '30px' }}
               className='tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
             >
-              {displayWalletAddress()}
+              {walletAddress ? displayWalletAddress() : 'Connet Wallet'}
             </Button>
           </div>
         </div>
@@ -236,19 +248,36 @@ function App() {
         <div className='tps-train-score-btn'>
           {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
 
-          <Button
-            onClick={() => {
-              if (walletAddress) {
-                handleDonate();
-              } else {
-                handleWallet();
-              }
-            }}
-            type='ghost'
-            className='tps_primary-btn tps_primary-btn__inverted text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
-          >
-            DONATE NOW
-          </Button>
+          {loading ? (
+            <div
+              style={{
+                padding: 10,
+                textAlign: 'center',
+              }}
+            >
+              <Button
+                className='increasingTpsBtn'
+                style={{ backgroundColor: '#a4a6a5', width: 250, height: 60 }}
+              >
+                <span style={{ color: '#000' }}> INCREASING TPS...</span>
+              </Button>
+            </div>
+          ) : (
+            <Button
+              disabled={loading}
+              onClick={() => {
+                if (walletAddress) {
+                  handleDonate();
+                } else {
+                  handleWallet();
+                }
+              }}
+              type='ghost'
+              className='tps_primary-btn tps_primary-btn__inverted text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
+            >
+              DONATE NOW
+            </Button>
+          )}
         </div>
         <div className='tps-train-leaderboard'>
           <p className='text-xl mt-[1rem] text-center' style={{ fontSize: 18 }}>
@@ -264,6 +293,17 @@ function App() {
             &copy; TPS Train
           </p>
         </div>
+        <Modal
+          open={modalActiveFor === LEADERBOARD}
+          onOk={() => {
+            setModalActiveFor('');
+          }}
+          onCancel={() => {
+            setModalActiveFor('');
+          }}
+        >
+          <LeaderBoardTable leaderboard={leaderboard} />
+        </Modal>
         <Modal
           title='Connect Wallet'
           open={modalActiveFor === CONNECT_WALLET}
@@ -339,10 +379,8 @@ function App() {
                 setIsLoading={setIsLoading}
               />
             )}
-            {modalActiveFor == LEADERBOARD && !hasDonated && !isLoading && (
-              <LeaderBoardTable />
-            )}
 
+            {modalActiveFor == LEADERBOARD && <LeaderBoardTable />}
             {isLoading && <Loading />}
             {hasDonated && <Congratulations donatedAmount={donatedAmount} />}
           </CustomModal>

@@ -22,7 +22,6 @@ const Train = ({ tpsValue }) => {
   // 0 20-20 50-50 100 100+
   // train-low, train-low_med,train-medium,train-high
 
-  console.log('tpsSpeedClass', tpsSpeedClass);
   return (
     <div style={{ marginBottom: 30 }} className='gif-container' speed='10ms'>
       <div className='train_mid_hold'>

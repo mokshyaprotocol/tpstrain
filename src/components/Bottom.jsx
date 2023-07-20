@@ -21,7 +21,7 @@ const Bottom = ({ modalActiveFor, setModalActiveFor }) => {
         type='ghost'
         className='bg-primary text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]'
       >
-        DONATE NOW
+        DONATE NOW Increasing tps
       </Button>
       <p className='text-xl mt-[1rem]'>
         Aptos is super fast. Don’t believe it? Donate APT to stress test.

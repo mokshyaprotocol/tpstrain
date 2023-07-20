@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Modal } from "antd";
+import React from 'react';
+import { Button, Modal } from 'antd';
 
 const CustomModal = ({
   modalActiveFor,
@@ -10,26 +10,27 @@ const CustomModal = ({
   setHasDonated,
 }) => {
   const handleOk = () => {
-    setModalActiveFor("");
+    setModalActiveFor('');
     setHasDonated(false);
   };
 
   const handleCancel = () => {
-    setModalActiveFor("");
+    setModalActiveFor('');
     setHasDonated(false);
   };
 
   return (
     <>
       <Modal
-        className="w-fit min-w-[300px] min-h-[400px] transition-all"
-        width={"fit"}
+        className='w-fit min-w-[300px] min-h-[400px] transition-all'
+        width={'fit'}
         title={title}
         open={!!modalActiveFor}
         onOk={handleOk}
-        okButtonProps={{ className: `bg-primary ${!showOk && "hidden"} ` }}
+        okButtonProps={{ className: `bg-primary ${!showOk && 'hidden'} ` }}
         cancelButtonProps={{ className: `hidden` }}
-        onCancel={handleCancel}>
+        onCancel={handleCancel}
+      >
         {children}
       </Modal>
     </>
