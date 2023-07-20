@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import TrainImage from '../images/trainnotrack.gif';
 import TrainTrack from '../images/Track.png';
 import TrainRock from '../images/Stoneandgrass.png';
+import GifPlayer from 'react-gif-player';
+
 const Train = ({ tpsValue }) => {
   const [tps, setTps] = useState(tpsValue);
   const [tpsSpeedClass, setTpsSpeedClass] = useState();
 
   useEffect(() => {
     setTps(() => tpsValue);
-
     if (tps >= 0 && tps <= 20) {
       setTpsSpeedClass('train-low');
     } else if (tps >= 21 && tps <= 50) {
@@ -26,7 +27,9 @@ const Train = ({ tpsValue }) => {
     <div style={{ marginBottom: 30 }} className='gif-container' speed='10ms'>
       <div className='train_mid_hold'>
         <div className='train_move-wrap'>
-          <img src={TrainImage} alt='' />
+          {/* <img src={TrainImage} alt='' />
+           */}
+          <GifPlayer gif={TrainImage} autoplay={true} />
         </div>
         <div className={`train_track-wrap ${tpsSpeedClass}`}>
           <img src={TrainTrack} alt='' />
