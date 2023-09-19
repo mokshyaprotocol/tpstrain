@@ -42,6 +42,7 @@ function App() {
   const [openWalletModal, setOpenWalletModal] = useState();
   const [walletAddress, setWalletAddress] = useState('');
   const [loading, setLoading] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
 
   const [walletConnected, setWalletConnected] = useState(false);
   const [disconnectModal, setDisconnectModal] = useState(false);
@@ -55,6 +56,27 @@ function App() {
       setModalActiveFor('');
     }
   }, [account]);
+
+  useEffect(() => {
+    async function fetchLeaderBoardList() {
+      fetch('https://api.tpstrain.com/leaderboard')
+        .then((response) => response.json())
+        .then((data) => {
+          const mapLeaderBoardData = data.map((x, index) => ({
+            key: index,
+            name: x.wallet_address,
+            times: 32,
+            amount: x.total_apt,
+          }));
+          console.log('data', mapLeaderBoardData);
+
+          setLeaderboard(mapLeaderBoardData);
+        });
+    }
+    if (leaderboard.length === 0) {
+      fetchLeaderBoardList();
+    }
+  }, [modalActiveFor]);
 
   useEffect(() => {
     setShowOk(hasDonated);
@@ -71,25 +93,14 @@ function App() {
       : 'Connect Wallet';
   };
 
-  const getAnimationDuration = (value) => {
-    if (value >= 10 && value <= 100) {
-      return '5s'; // Animation duration for the range 0-10
-    } else if (value >= 100 && value <= 200) {
-      return '10s'; // Animation duration for the range 20-50
-    } else if (value >= 200 && value <= 300) {
-      return '15s'; // No animation duration for other values
-    }
-    if (value >= 300 && value <= 400) {
-      return '20s';
-    }
-    if (value >= 400 && value <= 500) {
-      return '25s';
-    }
-  };
-
   const handleWallet = async () => {
     try {
-      connect(PetraWalletName);
+      if (walletAddress) {
+        setWalletAddress(null);
+        disconnect();
+      } else {
+        connect(PetraWalletName);
+      }
     } catch (e) {
       console.log('connect error', e);
     }
@@ -122,6 +133,7 @@ function App() {
   };
 
   const handleLeaderBoard = () => {
+    console.log('LEADERBOARD');
     setModalActiveFor(LEADERBOARD);
   };
 
@@ -226,7 +238,7 @@ function App() {
               style={{width: '143px', height: '30px'}}
               className="tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]"
             >
-              {displayWalletAddress()}
+              {walletAddress ? displayWalletAddress() : 'Connet Wallet'}
             </Button>
           </div>
         </div>
@@ -357,6 +369,7 @@ function App() {
 
             {/* {modalActiveFor == LEADERBOARD && <LeaderBoardTable />} */}
 
+            {modalActiveFor == LEADERBOARD && <LeaderBoardTable />}
             {isLoading && <Loading />}
             {hasDonated && <Congratulations donatedAmount={donatedAmount} />}
           </CustomModal>

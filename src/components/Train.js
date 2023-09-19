@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import TrainImage from '../images/trainnotrack.gif';
 import TrainTrack from '../images/Track.png';
 import TrainRock from '../images/Stoneandgrass.png';
-const Train = ({ tpsValue }) => {
+import GifPlayer from 'react-gif-player';
+
+const Train = ({tpsValue}) => {
   const [tps, setTps] = useState(tpsValue);
   const [tpsSpeedClass, setTpsSpeedClass] = useState();
 
@@ -22,20 +24,21 @@ const Train = ({ tpsValue }) => {
   // 0 20-20 50-50 100 100+
   // train-low, train-low_med,train-medium,train-high
 
-  console.log('tpsSpeedClass', tpsSpeedClass);
   return (
-    <div style={{ marginBottom: 30 }} className='gif-container' speed='10ms'>
-      <div className='train_mid_hold'>
-        <div className='train_move-wrap'>
-          <img src={TrainImage} alt='' />
+    <div style={{marginBottom: 30}} className="gif-container" speed="10ms">
+      <div className="train_mid_hold">
+        <div className="train_move-wrap">
+          {/* <img src={TrainImage} alt='' />
+           */}
+          <GifPlayer gif={TrainImage} autoplay={true} />
         </div>
         <div className={`train_track-wrap ${tpsSpeedClass}`}>
-          <img src={TrainTrack} alt='' />
-          <img src={TrainTrack} alt='' />
+          <img src={TrainTrack} alt="" />
+          <img src={TrainTrack} alt="" />
         </div>
         <div className={`train_track-wrap train-rocks ${tpsSpeedClass}`}>
-          <img src={TrainRock} alt='' />
-          <img src={TrainRock} alt='' />
+          <img src={TrainRock} alt="" />
+          <img src={TrainRock} alt="" />
         </div>
       </div>
     </div>
