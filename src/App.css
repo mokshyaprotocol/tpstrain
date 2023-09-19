@@ -44,7 +44,7 @@ body>iframe {
 }
 
 .train_mid_hold {
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
@@ -62,7 +62,7 @@ body>iframe {
 
 .train_mid_hold .train_track-wrap {
   position: absolute;
-  bottom: -15px;
+  bottom: -27px;
   left: 0;
   z-index: 2;
   animation: track 10s linear infinite;

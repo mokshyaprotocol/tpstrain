@@ -27,7 +27,7 @@ import {BloctoWalletName} from '@blocto/aptos-wallet-adapter-plugin';
 import PetraIcon from '../src/images/petra.png';
 import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
-
+import {AiOutlineClose} from 'react-icons/ai';
 import {ConnectWallet} from './components/ConnectWallet';
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const [walletConnected, setWalletConnected] = useState(false);
-
+  const [disconnectModal, setDisconnectModal] = useState(false);
   const {signAndSubmitTransaction, disconnect, connect, account} = useWallet();
 
   useEffect(() => {
@@ -172,7 +172,6 @@ function App() {
     } else if (walletName === 'martian') {
       openSelectedWallet = MartianWalletName;
     }
-
     connect(openSelectedWallet);
     setModalActiveFor('');
   };
@@ -212,8 +211,15 @@ function App() {
             </Button>
             <Button
               onClick={() => {
-                setModalActiveFor(CONNECT_WALLET);
-                handleWallet();
+                console.log('walletAddress', walletAddress);
+                if (!walletAddress) {
+                  setModalActiveFor(CONNECT_WALLET);
+                  handleWallet();
+                } else {
+                  disconnect();
+                  window.location.reload(false);
+                }
+
                 // setWalletOpen(true);
               }}
               type="ghost"
@@ -228,6 +234,7 @@ function App() {
         <div className="tps-train-image">
           <Train tpsValue={tpsValue} />
         </div>
+
         <div className="donate-text">
           <h3 className="text-2xl md:mt-[1rem]" style={{fontSize: 23}}>
             "Donate Apt to make the train move faster"
@@ -311,7 +318,15 @@ function App() {
             </ul>
           </div>
         </Modal>
-
+        <CustomModal
+          showOk={() => {}}
+          modalActiveFor={modalActiveFor == LEADERBOARD}
+          setHasDonated={setHasDonated}
+          setModalActiveFor={setModalActiveFor}
+          title={title}
+        >
+          <LeaderBoardTable />
+        </CustomModal>
         {modalActiveFor == DONATION && (
           <CustomModal
             showOk={showOk}
@@ -339,9 +354,8 @@ function App() {
                 setIsLoading={setIsLoading}
               />
             )}
-            {modalActiveFor == LEADERBOARD && !hasDonated && !isLoading && (
-              <LeaderBoardTable />
-            )}
+
+            {/* {modalActiveFor == LEADERBOARD && <LeaderBoardTable />} */}
 
             {isLoading && <Loading />}
             {hasDonated && <Congratulations donatedAmount={donatedAmount} />}
