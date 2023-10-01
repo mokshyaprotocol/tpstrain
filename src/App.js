@@ -2,7 +2,7 @@ import './App.css';
 import Train from './components/Train';
 import Bottom from './components/Bottom';
 import CustomModal from './components/CustomModal';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {CONNECT_WALLET, DONATION, LEADERBOARD} from './constants';
 import LeaderBoardTable from './components/LeaderBoardTable';
 import DonationForm from './components/DonationForm';
@@ -29,6 +29,7 @@ import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
 import {AiOutlineClose} from 'react-icons/ai';
 import {ConnectWallet} from './components/ConnectWallet';
+import {DiconnectModal} from './components/DisconnectModal';
 
 function App() {
   const [modalActiveFor, setModalActiveFor] = useState('');
@@ -47,7 +48,7 @@ function App() {
   const [walletConnected, setWalletConnected] = useState(false);
   const [disconnectModal, setDisconnectModal] = useState(false);
   const {signAndSubmitTransaction, disconnect, connect, account} = useWallet();
-
+  const [selectedWallet, setSelectedWallet] = useState('');
   useEffect(() => {
     if (account) {
       localStorage.setItem('wallet', account);
@@ -58,6 +59,7 @@ function App() {
   }, [account]);
 
   useEffect(() => {
+    console.log('tpsValue', tpsValue);
     async function fetchLeaderBoardList() {
       fetch('https://api.tpstrain.com/leaderboard')
         .then((response) => response.json())
@@ -77,6 +79,10 @@ function App() {
       fetchLeaderBoardList();
     }
   }, [modalActiveFor]);
+
+  const handleCancel = useCallback(() => {
+    console.log('handle cancel');
+  }, [disconnectModal]);
 
   useEffect(() => {
     setShowOk(hasDonated);
@@ -184,6 +190,7 @@ function App() {
     } else if (walletName === 'martian') {
       openSelectedWallet = MartianWalletName;
     }
+    console.log('openSelectedWallet', openSelectedWallet);
     connect(openSelectedWallet);
     setModalActiveFor('');
   };
@@ -226,10 +233,11 @@ function App() {
                 console.log('walletAddress', walletAddress);
                 if (!walletAddress) {
                   setModalActiveFor(CONNECT_WALLET);
-                  handleWallet();
+                  // handleWallet();
                 } else {
-                  disconnect();
-                  window.location.reload(false);
+                  setDisconnectModal(true);
+                  // disconnect();
+                  // window.location.reload(false);
                 }
 
                 // setWalletOpen(true);
@@ -253,8 +261,11 @@ function App() {
           </h3>
         </div>
         <div className="tps-train-score-btn">
-          {tpsValue && <NumberAnimation animationNumber={tpsValue} />}
-
+          {tpsValue ? (
+            <NumberAnimation animationNumber={tpsValue} />
+          ) : (
+            <p style={{fontSize: 20, textAlign: 'center'}}>loading tps...</p>
+          )}
           <Button
             onClick={() => {
               if (walletAddress) {
@@ -283,11 +294,40 @@ function App() {
             &copy; TPS Train
           </p>
         </div>
+
+        {/* <DiconnectModal
+          isOpen={disconnectModal}
+          onCancel={handleCancel}
+          onConfirm={() => {
+            // disconnect();
+          }}
+        /> */}
+        <Modal
+          title="Disconnect Wallet"
+          open={disconnectModal}
+          className="connect-wallet-modal"
+          onOk={() => {
+            // connect(selectedWallet);
+            disconnect();
+            setWalletAddress('');
+            setDisconnectModal(false);
+            // window.location.reload(false);
+          }}
+          onCancel={() => {
+            setDisconnectModal(false);
+          }}
+        >
+          <p onClick={() => console.log('123')}>
+            Disconnect current wallet to connect another wallet
+          </p>
+        </Modal>
         <Modal
           title="Connect Wallet"
           open={modalActiveFor === CONNECT_WALLET}
           className="connect-wallet-modal"
-          onOk={() => {}}
+          onOk={() => {
+            connect(selectedWallet);
+          }}
           onCancel={() => {
             setModalActiveFor('');
           }}
@@ -300,7 +340,10 @@ function App() {
                 </div>
                 <p
                   className="wallet_item"
-                  onClick={() => handleConnectWallet('petra')}
+                  onClick={() => {
+                    setSelectedWallet(PetraWalletName);
+                    handleConnectWallet('petra');
+                  }}
                 >
                   Petra
                 </p>
@@ -311,7 +354,10 @@ function App() {
                 </div>
                 <p
                   className="wallet_item"
-                  onClick={() => handleConnectWallet('blockto')}
+                  onClick={() => {
+                    setSelectedWallet(BloctoWalletName);
+                    handleConnectWallet('blockto');
+                  }}
                 >
                   Blockto
                 </p>
@@ -322,7 +368,10 @@ function App() {
                 </div>
                 <p
                   className="wallet_item"
-                  onClick={() => handleConnectWallet('martian')}
+                  onClick={() => {
+                    setSelectedWallet(MartianWalletName);
+                    handleConnectWallet('martian');
+                  }}
                 >
                   Martian.
                 </p>

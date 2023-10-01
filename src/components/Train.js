@@ -3,6 +3,8 @@ import TrainImage from '../images/trainnotrack.gif';
 import TrainTrack from '../images/Track.png';
 import TrainRock from '../images/Stoneandgrass.png';
 import GifPlayer from 'react-gif-player';
+import {PetraWallet} from 'petra-plugin-wallet-adapter';
+import {BloctoWallet} from '@blocto/aptos-wallet-adapter-plugin';
 
 const Train = ({tpsValue}) => {
   const [tps, setTps] = useState(tpsValue);

@@ -1,7 +1,7 @@
 import FlipNumbers from 'react-flip-numbers';
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 
-export default function NumberAnimation({ animationNumber }) {
+export default function NumberAnimation({animationNumber}) {
   console.log('animationNumber', animationNumber);
   const timer = useRef(null);
   const [number, setNumber] = useState(animationNumber);
@@ -15,19 +15,29 @@ export default function NumberAnimation({ animationNumber }) {
   }, [animationNumber]);
 
   return (
-    <div className='App'>
+    <div className="App" style={{position: 'relative', background: 'white'}}>
       <FlipNumbers
         height={30}
         width={30}
-        color='black'
+        color="black"
         // background="red"
         play
-        className='number-animation'
+        className="number-animation"
         perspective={400}
         numbers={String(number)}
         // numbers='20'
       />
          
+      <p
+        style={{
+          backgroundColor: 'white',
+          position: 'absolute',
+          left: 736,
+          top: 27,
+        }}
+      >
+        tps
+      </p>
     </div>
   );
 }
