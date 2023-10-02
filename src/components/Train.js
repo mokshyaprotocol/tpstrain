@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import TrainImage from '../images/trainnotrack.gif';
+import TrainImage from '../images/newTrainTrack.gif';
 import TrainTrack from '../images/Track.png';
 import TrainRock from '../images/Stoneandgrass.png';
 import GifPlayer from 'react-gif-player';
