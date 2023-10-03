@@ -38,16 +38,17 @@
   }
 }
 
-
-body>iframe {
+body > iframe {
   display: none;
 }
 
 .train_mid_hold {
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  margin-top: -10%;
+  z-index: -1;
 }
 
 .train_mid_hold:after {
@@ -62,7 +63,7 @@ body>iframe {
 
 .train_mid_hold .train_track-wrap {
   position: absolute;
-  bottom: -27px;
+  bottom: -25px;
   left: 0;
   z-index: 2;
   animation: track 10s linear infinite;
@@ -89,7 +90,7 @@ body>iframe {
 .train_mid_hold .train_track-wrap.train-rocks {
   z-index: 2;
   width: 200%;
-  bottom: -5px;
+  bottom: 30px;
 }
 
 .train_mid_hold .train_track-wrap img {
@@ -99,33 +100,32 @@ body>iframe {
 }
 
 .leaderboard_table tbody tr:not(:first-child) td:last-child::after {
-  content: "APT";
+  content: 'APT';
   font-size: 60%;
   margin-left: 5px;
 }
 
-.depo-selector input[type='radio']~label {
+.depo-selector input[type='radio'] ~ label {
   border: 1px solid #1f683d;
   transition: all 0.3s linear;
   font-weight: 600;
   position: relative;
 }
 
-.depo-selector input[type='radio']~label:hover {
+.depo-selector input[type='radio'] ~ label:hover {
   background-color: #1f683d;
   color: white;
-
 }
 
-.depo-selector input[type='radio']~label:after {
-  content: "APT";
+.depo-selector input[type='radio'] ~ label:after {
+  content: 'APT';
   font-size: 60%;
   position: absolute;
   bottom: 5px;
   right: 15px;
 }
 
-.depo-selector input[type='radio']:checked~label {
+.depo-selector input[type='radio']:checked ~ label {
   background-color: #1f683d;
 }
 
@@ -145,7 +145,6 @@ body>iframe {
   overflow: hidden;
   z-index: 10;
 }
-
 
 @keyframes track {
   0% {
