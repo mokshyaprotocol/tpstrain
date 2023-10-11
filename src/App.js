@@ -24,7 +24,17 @@ import {PetraWallet} from 'petra-plugin-wallet-adapter';
 import {PetraWalletName} from 'petra-plugin-wallet-adapter';
 import {MartianWalletName} from '@martianwallet/aptos-wallet-adapter';
 import {BloctoWalletName} from '@blocto/aptos-wallet-adapter-plugin';
+import {FewchaWalletName} from 'fewcha-plugin-wallet-adapter';
+import {SpikaWalletName} from '@spika/aptos-plugin';
+import {RiseWalletName} from '@rise-wallet/wallet-adapter';
+import {PontemWalletName} from '@pontem/wallet-adapter-plugin';
+
 import PetraIcon from '../src/images/petra.png';
+import FewchaIcon from '../src/images/fewcha.png';
+import SpikaIcon from '../src/images/spika.jpeg';
+import RiseIcon from '../src/images/rise.jpeg';
+import PontemIcon from '../src/images/pontem.png';
+
 import BlocktoIcon from '../src/images/blockto.png';
 import MartianIcon from '../src/images/martian.png';
 import {AiOutlineClose} from 'react-icons/ai';
@@ -139,7 +149,6 @@ function App() {
   };
 
   const handleLeaderBoard = () => {
-    console.log('LEADERBOARD');
     setModalActiveFor(LEADERBOARD);
   };
 
@@ -189,8 +198,13 @@ function App() {
       openSelectedWallet = BloctoWalletName;
     } else if (walletName === 'martian') {
       openSelectedWallet = MartianWalletName;
+    } else if (walletName === 'fewcha') {
+      openSelectedWallet = FewchaWalletName;
+    } else if (walletName === 'spika') {
+      openSelectedWallet = SpikaWalletName;
+    } else if (walletName === 'rise') {
+      openSelectedWallet = RiseWalletName;
     }
-    console.log('openSelectedWallet', openSelectedWallet);
     connect(openSelectedWallet);
     setModalActiveFor('');
   };
@@ -326,6 +340,7 @@ function App() {
           open={modalActiveFor === CONNECT_WALLET}
           className="connect-wallet-modal"
           onOk={() => {
+            console.log('clicked ok', selectedWallet);
             connect(selectedWallet);
           }}
           onCancel={() => {
@@ -334,21 +349,32 @@ function App() {
         >
           <div className="connect_wallet_modal">
             <ul>
-              <li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === PetraWalletName ? '#ebe8e1' : '',
+                }}
+              >
                 <div className="icon-wrap">
                   <img src={PetraIcon} alt="" />
                 </div>
                 <p
                   className="wallet_item"
                   onClick={() => {
+                    console.log('PetraWalletName', PetraWalletName);
                     setSelectedWallet(PetraWalletName);
-                    handleConnectWallet('petra');
+                    // handleConnectWallet('petra');
                   }}
                 >
                   Petra
                 </p>
               </li>
-              <li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === BloctoWalletName ? '#ebe8e1' : '',
+                }}
+              >
                 <div className="icon-wrap">
                   <img src={BlocktoIcon} alt="" />
                 </div>
@@ -356,13 +382,18 @@ function App() {
                   className="wallet_item"
                   onClick={() => {
                     setSelectedWallet(BloctoWalletName);
-                    handleConnectWallet('blockto');
+                    // handleConnectWallet('blockto');
                   }}
                 >
                   Blockto
                 </p>
               </li>
-              <li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === MartianWalletName ? '#ebe8e1' : '',
+                }}
+              >
                 <div className="icon-wrap">
                   <img src={MartianIcon} alt="" />
                 </div>
@@ -370,12 +401,88 @@ function App() {
                   className="wallet_item"
                   onClick={() => {
                     setSelectedWallet(MartianWalletName);
-                    handleConnectWallet('martian');
+                    // handleConnectWallet('martian');
                   }}
                 >
-                  Martian.
+                  Martian
                 </p>
               </li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === FewchaWalletName ? '#ebe8e1' : '',
+                }}
+              >
+                <div className="icon-wrap">
+                  <img src={FewchaIcon} alt="" />
+                </div>
+                <p
+                  className="wallet_item"
+                  onClick={() => {
+                    setSelectedWallet(FewchaWalletName);
+                    // handleConnectWallet('fewcha');
+                  }}
+                >
+                  Fewcha
+                </p>
+              </li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === SpikaWalletName ? '#ebe8e1' : '',
+                }}
+              >
+                <div className="icon-wrap">
+                  <img src={SpikaIcon} alt="" />
+                </div>
+                <p
+                  className="wallet_item"
+                  onClick={() => {
+                    setSelectedWallet(SpikaWalletName);
+                    // handleConnectWallet('spika');
+                  }}
+                >
+                  Spika
+                </p>
+              </li>
+              <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === RiseWalletName ? '#ebe8e1' : '',
+                }}
+              >
+                <div className="icon-wrap">
+                  <img src={RiseIcon} alt="" />
+                </div>
+                <p
+                  className="wallet_item"
+                  onClick={() => {
+                    setSelectedWallet(RiseWalletName);
+                    // handleConnectWallet('rise');
+                  }}
+                >
+                  Rise
+                </p>
+              </li>
+              {/* <li
+                style={{
+                  backgroundColor:
+                    selectedWallet === PontemWalletName ? '#ebe8e1' : '',
+                }}
+              >
+                <div className="icon-wrap">
+                  <img src={PontemIcon} alt="" />
+                </div>
+                <p
+                  className="wallet_item"
+                  onClick={() => {
+                    setSelectedWallet(PontemWalletName);
+                    // handleConnectWallet('rise');
+                  }}
+                >
+                  Pontem
+                </p>
+              </li> */}
             </ul>
           </div>
         </Modal>
