@@ -220,7 +220,7 @@ function App() {
   }, [hasDonated]);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="tps-train-container">
         <div className="tps-train-title" style={{display: 'flex'}}>
           <div className="img-logo-holder">
@@ -464,7 +464,7 @@ function App() {
                   Rise
                 </p>
               </li>
-              {/* <li
+              <li
                 style={{
                   backgroundColor:
                     selectedWallet === PontemWalletName ? '#ebe8e1' : '',
@@ -482,7 +482,7 @@ function App() {
                 >
                   Pontem
                 </p>
-              </li> */}
+              </li>
             </ul>
           </div>
         </Modal>

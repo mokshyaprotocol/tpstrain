@@ -8,7 +8,7 @@ import {BloctoWallet} from '@blocto/aptos-wallet-adapter-plugin';
 
 const Train = ({tpsValue}) => {
   const [tps, setTps] = useState(tpsValue);
-  const [tpsSpeedClass, setTpsSpeedClass] = useState();
+  const [tpsSpeedClass, setTpsSpeedClass] = useState('');
 
   useEffect(() => {
     setTps(() => tpsValue);

@@ -32,11 +32,13 @@ export default function NumberAnimation({animationNumber}) {
         style={{
           backgroundColor: 'white',
           position: 'absolute',
-          left: 736,
-          top: 27,
+          left: 780,
+          top: 11,
+          fontSize: 17,
+          fontWeight: 'bold',
         }}
       >
-        tps
+        TPS
       </p>
     </div>
   );

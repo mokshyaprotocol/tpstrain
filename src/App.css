@@ -43,8 +43,8 @@ body > iframe {
 }
 
 .train_mid_hold {
-  width: 80%;
-  margin: 0 auto;
+  width: 100%;
+  /* margin: 0 auto; */
   position: relative;
   overflow: hidden;
   margin-top: -10%;
