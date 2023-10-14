@@ -150,19 +150,19 @@ function App() {
   };
 
   const submitDonate = async () => {
-    const lastDepositedTime = localStorage.getItem('walletDepositTime')
-      ? new Date(JSON.parse(localStorage.getItem('walletDepositTime')).time)
+    const lastDepositedTime = localStorage.getItem('walletsDepositTime')
+      ? new Date(JSON.parse(localStorage.getItem('walletsDepositTime')).time)
       : null;
     const currentTime = new Date();
     if (lastDepositedTime) {
       if (
         lastDepositedTime &&
-        (currentTime - lastDepositedTime) / 1000 >= 3600
+        (currentTime - lastDepositedTime) / 1000 >= 900
       ) {
         donateAPT();
       } else {
         const remainingTime = Math.floor(
-          (3600 - (currentTime - lastDepositedTime) / 1000) / 60
+          (900 - (currentTime - lastDepositedTime) / 1000) / 60
         );
 
         toast.warning(
