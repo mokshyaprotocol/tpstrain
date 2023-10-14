@@ -62,6 +62,7 @@ function App() {
   useEffect(() => {
     if (account) {
       localStorage.setItem('wallet', account);
+
       setWalletConnected(true);
       setWalletAddress(account.address);
       setModalActiveFor('');
@@ -69,7 +70,6 @@ function App() {
   }, [account]);
 
   useEffect(() => {
-    console.log('tpsValue', tpsValue);
     async function fetchLeaderBoardList() {
       fetch('https://api.tpstrain.com/leaderboard')
         .then((response) => response.json())
@@ -80,7 +80,6 @@ function App() {
             times: 32,
             amount: x.total_apt,
           }));
-          console.log('data', mapLeaderBoardData);
 
           setLeaderboard(mapLeaderBoardData);
         });
@@ -90,9 +89,7 @@ function App() {
     }
   }, [modalActiveFor]);
 
-  const handleCancel = useCallback(() => {
-    console.log('handle cancel');
-  }, [disconnectModal]);
+  const handleCancel = useCallback(() => {}, [disconnectModal]);
 
   useEffect(() => {
     setShowOk(hasDonated);
@@ -153,6 +150,31 @@ function App() {
   };
 
   const submitDonate = async () => {
+    const lastDepositedTime = localStorage.getItem('walletDepositTime')
+      ? new Date(JSON.parse(localStorage.getItem('walletDepositTime')).time)
+      : null;
+    const currentTime = new Date();
+    if (lastDepositedTime) {
+      if (
+        lastDepositedTime &&
+        (currentTime - lastDepositedTime) / 1000 >= 3600
+      ) {
+        donateAPT();
+      } else {
+        const remainingTime = Math.floor(
+          (3600 - (currentTime - lastDepositedTime) / 1000) / 60
+        );
+
+        toast.warning(
+          `You have deposited before and your pulled down period is ${remainingTime} min`
+        );
+      }
+    } else {
+      donateAPT();
+    }
+  };
+
+  const donateAPT = async () => {
     setLoading(true);
     const amount = +donatedAmount * Math.pow(10, 8);
 
@@ -184,6 +206,11 @@ function App() {
         }
       );
       toast.success('APT deposited successfully.');
+
+      localStorage.setItem(
+        'walletsDepositTime',
+        JSON.stringify({account, time: new Date()})
+      );
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -204,6 +231,8 @@ function App() {
       openSelectedWallet = SpikaWalletName;
     } else if (walletName === 'rise') {
       openSelectedWallet = RiseWalletName;
+    } else if (walletName === 'phontem') {
+      openSelectedWallet = PontemWalletName;
     }
     connect(openSelectedWallet);
     setModalActiveFor('');
@@ -244,7 +273,6 @@ function App() {
             </Button>
             <Button
               onClick={() => {
-                console.log('walletAddress', walletAddress);
                 if (!walletAddress) {
                   setModalActiveFor(CONNECT_WALLET);
                   // handleWallet();
@@ -309,13 +337,6 @@ function App() {
           </p>
         </div>
 
-        {/* <DiconnectModal
-          isOpen={disconnectModal}
-          onCancel={handleCancel}
-          onConfirm={() => {
-            // disconnect();
-          }}
-        /> */}
         <Modal
           title="Disconnect Wallet"
           open={disconnectModal}
@@ -331,7 +352,7 @@ function App() {
             setDisconnectModal(false);
           }}
         >
-          <p onClick={() => console.log('123')}>
+          <p onClick={() => {}}>
             Disconnect current wallet to connect another wallet
           </p>
         </Modal>
@@ -339,8 +360,9 @@ function App() {
           title="Connect Wallet"
           open={modalActiveFor === CONNECT_WALLET}
           className="connect-wallet-modal"
+          cancelButtonProps={{style: {display: 'none'}}}
+          okButtonProps={{style: {display: 'none'}}}
           onOk={() => {
-            console.log('clicked ok', selectedWallet);
             connect(selectedWallet);
           }}
           onCancel={() => {
@@ -361,9 +383,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    console.log('PetraWalletName', PetraWalletName);
-                    setSelectedWallet(PetraWalletName);
-                    // handleConnectWallet('petra');
+                    // setSelectedWallet(PetraWalletName);
+                    handleConnectWallet('petra');
                   }}
                 >
                   Petra
@@ -381,8 +402,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    setSelectedWallet(BloctoWalletName);
-                    // handleConnectWallet('blockto');
+                    // setSelectedWallet(BloctoWalletName);
+                    handleConnectWallet('blockto');
                   }}
                 >
                   Blockto
@@ -419,8 +440,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    setSelectedWallet(FewchaWalletName);
-                    // handleConnectWallet('fewcha');
+                    // setSelectedWallet(FewchaWalletName);
+                    handleConnectWallet('fewcha');
                   }}
                 >
                   Fewcha
@@ -438,8 +459,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    setSelectedWallet(SpikaWalletName);
-                    // handleConnectWallet('spika');
+                    // setSelectedWallet(SpikaWalletName);
+                    handleConnectWallet('spika');
                   }}
                 >
                   Spika
@@ -457,8 +478,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    setSelectedWallet(RiseWalletName);
-                    // handleConnectWallet('rise');
+                    // setSelectedWallet(RiseWalletName);
+                    handleConnectWallet('rise');
                   }}
                 >
                   Rise
@@ -476,8 +497,8 @@ function App() {
                 <p
                   className="wallet_item"
                   onClick={() => {
-                    setSelectedWallet(PontemWalletName);
-                    // handleConnectWallet('rise');
+                    // setSelectedWallet(PontemWalletName);
+                    handleConnectWallet('phontem');
                   }}
                 >
                   Pontem
@@ -550,26 +571,4 @@ function App() {
 
 export default App;
 
-// Deposit click garda
-// step1 : https://api.tpstrain.com/get_source_address?amount=200000000
-
-// response {
-//     id,
-//     source_address:'sdfdsf'
-// }
-
-// step2: signAndSubmitTransaction call from aptos warkade sdk
-//  const payload = {
-//       function:
-//         '0x1::aptos_account::transfer',
-//       type_arguments: [],
-//       arguments: ['source_address','amount'],
-//     };
-
-//     step3: https://api.tpstrain.com/process_transactions
-
-//     body {
-//         id,
-//         amount:
-
-//     }
+// You have deposited before, your pull down period is 45m
