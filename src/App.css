@@ -204,3 +204,46 @@ body > iframe {
 .connect-wallet-modal .ant-modal-footer .ant-btn-default:hover {
   color: #1f683d;
 }
+
+@media screen and (max-width: 992px) {
+  .tps-train-title {
+    flex-direction: column;
+  }
+  .title-logo {
+    height: auto;
+    width: auto;
+  }
+  .donate-text{
+    padding: 0 10px;
+    text-align: center;
+  }
+  .donate-text p{
+    font-size: 16px;
+  }
+  .gif-container{
+    margin-bottom: 0;
+  }
+    .train_mid_hold:after {
+      content: '';
+      left: 0;
+      bottom: -14px;
+      width: 100%;
+      height: 35px;
+      position: absolute;
+      background-color: white;
+  }
+  .train_mid_hold .train_track-wrap.train-rocks {
+    z-index: 2;
+    width: 200%;
+    bottom: 5px;
+  }
+  .train_mid_hold .train_track-wrap {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    z-index: 2;
+    animation: track 10s linear infinite;
+    overflow: hidden;
+    width: 200%;
+}
+}

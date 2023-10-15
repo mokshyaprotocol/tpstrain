@@ -251,7 +251,7 @@ function App() {
   return (
     <div className="container-fluid">
       <div className="tps-train-container">
-        <div className="tps-train-title" style={{display: 'flex'}}>
+        <div className="tps-train-title">
           <div className="img-logo-holder">
             <img
               src={Logo}
@@ -299,7 +299,7 @@ function App() {
 
         <div className="donate-text">
           <h3 className="text-2xl md:mt-[1rem]" style={{fontSize: 23}}>
-            "Donate Apt to make the train move faster"
+            " Donate Apt to make the train move faster "
           </h3>
         </div>
         <div className="tps-train-score-btn">
