@@ -15,7 +15,7 @@ export default function NumberAnimation({animationNumber}) {
   }, [animationNumber]);
 
   return (
-    <div className="App" style={{position: 'relative', background: 'white'}}>
+    <div className="App" style={{position: 'relative', background: 'white',display:'inline-flex',alignItems:'baseline'}}>
       <FlipNumbers
         height={30}
         width={30}
@@ -31,9 +31,6 @@ export default function NumberAnimation({animationNumber}) {
       <p
         style={{
           backgroundColor: 'white',
-          position: 'absolute',
-          left: 780,
-          top: 11,
           fontSize: 17,
           fontWeight: 'bold',
         }}
