@@ -27,7 +27,7 @@ const Train = ({tpsValue}) => {
   // train-low, train-low_med,train-medium,train-high
 
   return (
-    <div  className="gif-container" speed="10ms">
+    <div className="gif-container" speed="10ms" style={{marginTop: -80}}>
       <div className="train_mid_hold">
         <div className="train_move-wrap">
           {/* <img src={TrainImage} alt='' />

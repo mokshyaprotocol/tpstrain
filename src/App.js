@@ -164,9 +164,8 @@ function App() {
         const remainingTime = Math.floor(
           (900 - (currentTime - lastDepositedTime) / 1000) / 60
         );
-
         toast.warning(
-          `You have deposited before and your pulled down period is ${remainingTime} min`
+          `You have donated recently, Please wait until ${remainingTime} min to donate again. Thanks for supporting Aptos.`
         );
       }
     } else {
