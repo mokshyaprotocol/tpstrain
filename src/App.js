@@ -78,7 +78,7 @@ function App() {
             key: index,
             name: x.wallet_address,
             times: 32,
-            amount: x.total_apt,
+            amount: x.total_apt / Math.pow(10, 8),
           }));
 
           setLeaderboard(mapLeaderBoardData);
