@@ -513,7 +513,7 @@ function App() {
           setModalActiveFor={setModalActiveFor}
           title={title}
         >
-          <LeaderBoardTable />
+          <LeaderBoardTable leaderboard={leaderboard} />
         </CustomModal>
         {modalActiveFor == DONATION && (
           <CustomModal
