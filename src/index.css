@@ -28,6 +28,12 @@ html {
   width: 70%;
 }
 
+@media screen and (max-width: 500px) {
+  .img-logo-holder {
+    width: 40%;
+  }
+}
+
 .img-logo-holder img {
   float: right;
 }
