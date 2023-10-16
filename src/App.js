@@ -123,7 +123,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://fullnode.testnet.aptoslabs.com/v1/'
+          'https://fullnode.mainnet.aptoslabs.com/v1/'
         );
         // console.log({ response: +response.data.block_height });
         const tps = await getTpsByBlockHeight(+response.data.block_height);
@@ -287,7 +287,7 @@ function App() {
               style={{width: '143px', height: '30px'}}
               className="tps_primary-btn text-white my-[2.6rem] md:my-[1.9rem]  flex mx-auto justify-center items-center w-[160px] h-[52px] md:w-[200px] lg:w-[270px]  md:h-[50px] lg:h-[60px]"
             >
-              {walletAddress ? displayWalletAddress() : 'Connet Wallet'}
+              {walletAddress ? displayWalletAddress() : 'Connect Wallet'}
             </Button>
           </div>
         </div>

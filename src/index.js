@@ -18,7 +18,7 @@ import {WalletCore, NetworkName} from '@aptos-labs/wallet-adapter-core';
 
 import {AptosWalletAdapterProvider} from '@aptos-labs/wallet-adapter-react';
 
-let network = NetworkName.Testnet;
+let network = NetworkName.Mainnet;
 const wallets = [
   new PetraWallet(),
   new BloctoWallet({
