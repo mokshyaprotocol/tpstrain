@@ -24,6 +24,7 @@ const App = (props) => {
     <div className="table-modal">
       <h1 className="text-center">Leaderboard</h1>
       <Table
+        scroll={{y: 400}}
         loading={loading}
         size="small"
         sticky={true}
